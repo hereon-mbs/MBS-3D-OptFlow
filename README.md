@@ -33,23 +33,20 @@ You need to provide two greyscale tif-image sequences (8bit, 16bit or 32bit): a 
 
 A full list of available arguments and flags will follow. Right now you need to check the section *extract command line arguments* in *main.cpp* and/or *protocol_parameters.h*. The latter sets the default parameters used that can be overwritten by the arguments.
 
-@Adrian:
-
-Your data a very large and won't fit on a single GPU. It is recommended to use the flag *--mosaic_approximation* to calculate overlapping subvolumes sequentially. That mode assumes that no motions larger than the overlap between subvolumes occur. You will also 
 
 ## Exemplary Program Calls
 
 ### Push-out tests on bone-screw implant systems (detecting strain and cracks)
 
-*./mbsoptflow -i0 /reference/path/ -i1 /frame1/path/ -o /outpath/ -m /mask/path/ -alpha 0.05 -level 12 -scale 0.8 -norm histogram_linear_mask -prefilter gaussian 1 --median -gpu0 0 --export_warp --conhull_maxz -localglobal 3 -transform1 sqrt --extrapolate --mosaic_approximation -overlap 100 --export_error --bone_quality*
+*./mbsoptflow -i0 /reference/path/ -i1 /frame1/path/ -o /outpath/ -m /mask/path/<br>-alpha 0.05 -level 12 -scale 0.8 -norm histogram_linear_mask -prefilter gaussian 1 --median -gpu0 0<br>--export_warp --conhull_maxz -localglobal 3 -transform1 sqrt --extrapolate --mosaic_approximation -overlap 100 --export_error --bone_quality*
 
 **Lessons:**
 <br>
-**-gpu0 0** sets the ID (check with *nvidia-smi*) of the first GPU used.
+**-gpu0 0** sets the ID of the first GPU used. You can check the IDs of your GPUs with *nvidia-smi*.
 <br>
 **-alpha 0.05** controls the relative contribution of the smoothing term. Here, we use as little smoothing as possible and as much smoothing as necessary for locating emerging cracks precisely.
 <br>
-**-localglobal 3** activates a convolution of the data term. This requires more GPU memory but increases the robustness of the algorithm, especially in poorly textured regions.
+**-localglobal 3** activates a convolution of the data term. This requires more GPU memory but increases the robustness of the algorithm, especially in poorly textured regions. The integer defines the radius of the convolution kernel. Near optimal kernels are available with a radius of up to 4.
 <br>
 **--mosaic_approximation** activates a sequential approximation of displacements in overlapping subvolumes of image volumes exceeding GPU memory.
 <br>
@@ -64,7 +61,16 @@ These data only have textures
 
 ### Rearranged sand grains in a flushed capillary
 
-**
+*./mbsoptflow -i0 /reference/denoised/ -i1 /frame1/denoised/ -o /outpath/ -m /localotsu/mask/<br> -alpha 0.2 -norm histogram -scale 0.8 -level 18  -prefilter gaussian 0.5 -gpu0 0<br>--mosaic --export_warp --skip_vectors --binning*
 
-In these datasets we can expect rigid body motions exclusively. Thus, smoothing can be substantially increased.
-
+**Lessons:**
+<br>
+**-alpha 0.2** In these datasets we can expect rigid body motions exclusively and the grains are quite large. Thus, smoothing can be substantially increased.
+<br>
+**-level 18** We need to increase the amount of pyramid levels to capture larger rearragements.
+<br>
+**--mosaic** These data are very large and won't fit on a single GPU. This activates a decomposition of the image volume into smaller subvolumes. In this mode boundaries between the subvolumes are updated after every outer iteration which is substantially slower than optimizing the subvolumes independently with *--mosaic_approximation*. I would try that first although that mode assumes that no motions larger than the overlap between subvolumes occur.
+<br>
+**--export_warp** creates an additional output of the morphed Frame1 which we are interested in for this study.
+**--skip_vectors** turns off the displacement field output.
+**--binning** skips the last pyramid level and upscales the vectors determined on the previous level. This is sufficient for the task and reduces the computational burden for huge datasets substantially.
