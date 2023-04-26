@@ -33,6 +33,7 @@ You need to provide two greyscale tif-image sequences (8bit, 16bit or 32bit): a 
 
 A full list of available arguments and flags will follow. Right now you need to check the section *extract command line arguments* in *main.cpp* and/or *protocol_parameters.h*. The latter sets the default parameters used that can be overwritten by the arguments.
 
+<br>
 
 ## Exemplary Program Calls
 
@@ -52,18 +53,28 @@ A full list of available arguments and flags will follow. Right now you need to 
 <br>
 **-norm histogram_linear_mask** sets the method with which to normalize the data to a 0 to 1 interval. Here we stretch 99.9% of the dynamic range of the intensity histogram within the masked ROI. Maintaining brightness constancy is imperative and for zoom tomography and/or low detector counts the assumption may be violated. *linear* provides an additional transformation of Frame1 intensities by projecting extrema in the histogram with a linear transformation onto the corresponding extrema in Frame0.
 
-### Tensile tests on shape memory alloys
+<br>
 
-**
+### Tensile tests on wires made of shape memory alloys
+
+*./mbsoptflow -i0 /frame0/ -i1 /frame1/ -o /outpath/ -m none -gradientmask 0 0.05 <br>-alpha 0.05 -norm histogram_independent -level 10 -scale 0.8 --skip_masking --export_warp -prefilter gaussian 0.5 -localglobal 3 -gpu0 2 -prestrain_ref 0.001 0.5*
 
 **Lessons:**
-These data only have textures 
+<br>
+**-m none -gradientmask 0 0.05** These data only have textures on the interface of the wire where etched pits can be found. Instead of using an external mask we use the internal option to calculate the gradient magnitude. The first number provided with the *-gradientmask* argument defines the sigma value for Gaussian blurring of the gradient image, whereas the second value defines the percentile of voxels used. In this case we use the 5% of voxels with the largest gradient magnitude.
+<br>
+**--skip_masking** This should be default by now. In the first version masked out values were assumed to be stationary by default in the displacement vector field. That turned out to be only useful for visualization purposes.
+**-prestrain_ref 0.001 0.5** When performing a tensile test the sample extends beyond the field of view at the top and bottom of the image stack. Even more, the motion across this boundary is larger than the lateral contraction. We can aid the algorithm in finding a reasonable solution by straining the reference image by the expected tensile strain during the preprocessing step. This also maximizes the amount of information used from Frame1. The result is corrected for the prescribed strain. Here, we strain the reference image by 0.1% around the image center (*0.5*). 
 
-### Rearranged sand grains in a flushed capillary
+<br>
+
+### Rearranged sand grains in a capillary flushed with nanoparticles 
 
 *./mbsoptflow -i0 /reference/denoised/ -i1 /frame1/denoised/ -o /outpath/ -m /localotsu/mask/<br> -alpha 0.2 -norm histogram -scale 0.8 -level 18  -prefilter gaussian 0.5 -gpu0 0<br>--mosaic --export_warp --skip_vectors --binning*
 
 **Lessons:**
+<br>
+**-m /localotsu/mask/** a mask limits the data term to the masked in regions. Regions excluded from the mask are interpolated. This is not strictly necessary but in CT data the background texture is often dominated by artefacts which we would like to ignore anyways.
 <br>
 **-alpha 0.2** In these datasets we can expect rigid body motions exclusively and the grains are quite large. Thus, smoothing can be substantially increased.
 <br>
@@ -74,3 +85,5 @@ These data only have textures
 **--export_warp** creates an additional output of the morphed Frame1 which we are interested in for this study.
 **--skip_vectors** turns off the displacement field output.
 **--binning** skips the last pyramid level and upscales the vectors determined on the previous level. This is sufficient for the task and reduces the computational burden for huge datasets substantially.
+<br>
+@ Adrian: We performed the study before I had the localglobal-option implemented in its current format. I would try adding *-localglobal 3* and switch to *--mosaic_approximation*
