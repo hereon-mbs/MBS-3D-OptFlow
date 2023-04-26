@@ -7,6 +7,7 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
 **Pending Updates**:
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
+  - Upload demo projects
 
 <br>
 
