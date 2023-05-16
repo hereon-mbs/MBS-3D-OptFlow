@@ -2,12 +2,13 @@
 
 MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for Nvidia GPUs intended for the use with synchrotron µ-CT volume image data.
 
+**17.05.2023:** Prepared data files for ray cartilage demo
 **26.04.2023:** Dumped the source code for knowledgeable users.
 
 **Pending Updates**:
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
-  - Upload demo projects (ray cartiledge; NiTi wires)
+  - Upload demo projects (ray cartilage; NiTi wires)
 
 <br>
 
