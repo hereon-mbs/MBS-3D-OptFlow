@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <omp.h>
+#include <vector>
 
 #include "Geometry/hdcommunication.h"
 #include "Geometry/auxiliary.h"
@@ -41,9 +42,9 @@ using namespace std;
  *
  * --- Framework for calculating dense optical flow on 4D-Xray CT reconstructions ---
  *
- * Location: Helmholtz-Zentrum fuer Material und Kuestenforschung, Max-Planck-Strasse 1, 21502 Geesthacht
+ * Location: Helmholtz-Zentrum hereon GmbH, Max-Planck-Strasse 1, 21502 Geesthacht
  * Author: Stefan Bruns
- * Contact: bruns@nano.ku.dk
+ * Contact: stefan.bruns@hereon.de
  *
  * License: TBA
  *
@@ -53,7 +54,6 @@ using namespace std;
  * 	[3] Brox, PhD thesis 2005: "Von Pixeln zu Regionen: Partielle Differentialgleichungen in der Bildanalyse".
  * 	[4] Ershov, PhD thesis 2015: "Automated Analysis of Time-Resolved X-ray Data using Optical Flow Methods".
  * 	[5] Liu, PhD thesis 2009: "Beyond Pixels: Exploring New Representations and Applications for Motion Analysis"
- * 	[6]
  *
  * Helpful 2D-repositories:
  * 	[6] https://github.com/pathak22/pyflow
@@ -63,36 +63,20 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	//last settings:
-	//-prefilter gaussian 0.5 <-- can basically be none
-	//-alpha 0.06
-	//-gradientmask 4.0 0.4
-	//-flowfilter 1.5 <-- postprocessing with -median 1.5 seems sufficient and would be faster
-	//-doi 0.005 10
-	//-iter_sor 10 //sufficient
-	//(-prefilter2 median 1.0 could be ok but unnecessary)
-
 	//Program Parameters
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////
-	std::string inpath0 = "";//TestSequence/test0003.tif";//
+	std::string inpath0 = "";
 	std::string inpath1 = "";
 	std::string outpath = "";
 
-	std::string inpath_mask0 = "none";//"/home/stefan/Documents/WBB/Debug/TestSequence/mask0002.tif";
+	std::string inpath_mask0 = "none";
 	std::string analysis_mask = "none";
 
 	bool check_quality = true;
 	bool check_from_backup = true;
 	bool export_warped = false;
-	bool track_fissures = false;
 	bool export_error_image = false;
-	string eliminate_motion = "none";
-
-	//SynchroLoad only:
-	bool peek_mode = false;
-	bool maxz_by_convexhull = false;
-	bool bone_quality_check = false;
 	//////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,12 +93,9 @@ int main(int argc, char* argv[])
 	bool mask_output = false;
 	bool warp_mask = false;
 	bool skip_vector_export = false;
-	bool measure_pin_displacement = false;
 
 	bool debug = false;
 	bool empty_confidence = false;
-	float debug_val1 = 2.0f;
-	float debug_val2 = 0.5f;
 
 	pair<int,int> zrange = {-1,-1};
 	float recomask_diameter = -1; //when > -1 set confidence to 0 for everything outside a circular region (max_diameter when 0, else provided value)
@@ -130,21 +111,6 @@ int main(int argc, char* argv[])
 	float relative_strain_origin = 0.5;
 	bool prewarp_frame0 = false;
 	bool sparse_translation_search = false;
-
-	 /*********************************************************************************************************************************************************
-	 *
-	 * ToDo:
-	 * 		- directional bias == insufficient scaling?
-	 *
-	 *      - fracture measure by data used for warp vs divergence? --> criteria: optflow divergence, in mask, gets darker
-	 *                <-- apply a gabor filter bank (with maximum projection or PCA?) <-- fourier domain faster?
-	 *      - map out occlusions
-	 *      - move flowfilter to gpu (?)
-	 *      - add a config file
-	 *      - move some functionality from main to solver_base
-	 *      - multiGPU
-	 *      - test ROF-TV structure/texture splitting (scale to [-1,1], lambda 0.125, 100 iter, alpha 0.95)
-	 *********************************************************************************************************************************************************/
 
 	///////////////////////////////////////////////////////////////////////////////////
 	if ("extract command line arguments"){
@@ -508,13 +474,6 @@ int main(int argc, char* argv[])
 				params.mosaicing.reorder_axis = true;
 			else if (string(argv[i]) == "--warp_mask")
 				warp_mask = true;
-			else if (string(argv[i]) == "--fissures" || string(argv[i]) == "--divergence")
-				track_fissures = true;
-			else if (string(argv[i]) == "-eliminate")
-			{
-				i++;
-				eliminate_motion = string(argv[i]);
-			}
 			else if (string(argv[i]) == "-binning")
 			{
 				i++;
@@ -522,8 +481,6 @@ int main(int argc, char* argv[])
 			}
 			else if (string(argv[i]) == "--binning")
 				params.special.binning = 2;
-			else if (string(argv[i]) == "--pin")
-				measure_pin_displacement = true;
 			else if (string(argv[i]) == "--binned_output")
 				params.special.binned_output = true;
 			else if (string(argv[i]) == "--sqrt_equalize")
@@ -532,10 +489,6 @@ int main(int argc, char* argv[])
 			{i++; params.preprocessing.intensity_transform1 = string(argv[i]);}
 			else if (string(argv[i]) == "-transform2")
 			{i++;params.preprocessing.intensity_transform2 = string(argv[i]);}
-			else if (string(argv[i]) == "--peek_mode")
-				peek_mode = true;
-			else if (string(argv[i]) == "--conhull_maxz")
-			    maxz_by_convexhull = true;
 			else if (string(argv[i]) == "-convergence")
 			{
 				i++;
@@ -545,8 +498,6 @@ int main(int argc, char* argv[])
 				params.preprocessing.extrapolate_intensities = true;
 			else if (string(argv[i]) == "--export_error")
 			     export_error_image = true;
-			else if (string(argv[i]) == "--bone_quality")
-			     bone_quality_check = true;
 			else if (string(argv[i]) == "-zkill_confidence")
 			{
 				//for SMA-wires that touch top and bottom slice
@@ -571,27 +522,6 @@ int main(int argc, char* argv[])
 
 	std::pair<double,double> histogram_correlation = {0.0, 0.0}; //used to track the success of histomatching option
 
-	/////
-	/*cout << "debug_run" << endl;
-
-	string this_path = "/asap3/petra3/gpfs/p07/2021/data/11012199/processed/ivw0025_Struktur1_gruen_3_000/";
-	pair<int,int> zrange2 = {400, 450};
-	hdcom::HdCommunication hdcom2;
-	float* debug_image = hdcom2.GetTif_unknowndim_32bit(this_path+"04-recrop/", shape, zrange2, true);
-
-	lk::NobleCornerDetector lukas_kanade;
-	float* corners = lukas_kanade.detectcorners(debug_image, shape);
-	lk::HistogramsOfOrientedGradients hog;
-	int feature_shape[3] = {1452, 760, 1};
-	float* features = hog.create_HOG_descriptorimage(debug_image, corners, shape);
-
-	hdcom2.SaveTifSequence_32bit(features, feature_shape, this_path+"/debug/", "debug", true);
-	hdcom2.SaveTifSequence_32bit(corners, shape, this_path+"/debug2/", "debug", true);
-	return 0;*/
-
-
-	/////
-
 	//Read data, normalize and preprocess
 	///////////////////////////////////////////////////////////////////////////////////
 	cout << "--------------------------------------------------" << endl;
@@ -600,25 +530,53 @@ int main(int argc, char* argv[])
 	std::cout << "----------------------------" << std::endl;
 
 	hdcom::HdCommunication hdcom;
+	std::string active_path = aux::get_active_directory();
 
-	if(maxz_by_convexhull){
-		std::string rootpath = inpath0.substr(0, inpath0.rfind("/", inpath0.length()-3)+1);
-		cout << "limiting z-range by last slice with convex hull value from: " << rootpath + "/convex_hull/"<< endl;
-		frame0 = hdcom.GetTif_unknowndim_32bit(rootpath + "/convex_hull/", shape, zrange, true);
-		long long int nslice = shape[0]*shape[1];
-		long long int nstack = shape[2]*nslice;
-		int maxz = 0;
-		#pragma omp parallel for reduction(max: maxz)
-		for (long long int idx = 0; idx < nstack; idx++)
-		{
-			int z = idx/nslice;
-			if(z > maxz && frame0[idx] != 0) maxz = z;
-		}
-		free(frame0);
+	//test if provided pathes are absolute or relative
+	////////////////////////
+	if (!hdcom.is_absolute_path(inpath0) && hdcom.path_exists(active_path+"//"+inpath0)) inpath0 = active_path+"//"+inpath0;
+	if (!hdcom.is_absolute_path(inpath1) && hdcom.path_exists(active_path+"//"+inpath1)) inpath1 = active_path+"//"+inpath1;
+	
+	std::string rootpath = inpath0.substr(0, inpath0.rfind("/", inpath0.length()-2)+1);
+	if (outpath.length() == 0) outpath = rootpath + "/optflow/";
+	else if (!hdcom.is_absolute_path(outpath)) outpath = active_path+"//"+outpath;
 
-		zrange.second = maxz+1;
+	bool is_rgb = false;
+	std::vector<string> filelist0 = hdcom.GetFilelist_And_ImageSequenceDimensions(inpath0, shape, is_rgb);
+	std::vector<string> filelist1 = hdcom.GetFilelist_And_ImageSequenceDimensions(inpath1, shape, is_rgb);
+
+	if (filelist0[0] == "missing")
+	{
+		cout << "\033[1;31mError! Directory of Frame0 not found! Please provide a valid input with the -i0 argument.\033[0m" << endl;
+		cout << "inpath0: " << inpath0 << endl;
+		return -1;
 	}
+	else if (filelist1[0] == "missing")
+	{
+		cout << "\033[1;31mError! Directory of Frame1 not found! Please provide a valid input with the -i1 argument.\033[0m" << endl;
+		cout << "inpath1: " << inpath1 << endl;
+		return -1;
+	}
+	else if (filelist0[0] == "no tif")
+	{
+		cout << "\033[1;31mError! No tif-file in directory of Frame0! Please provide a valid input with the -i0 argument.\033[0m" << endl;
+		cout << "inpath0: " << inpath0 << endl;
+		return -1;
+	}
+	else if (filelist1[0] == "no tif")
+	{
+		cout << "\033[1;31mError! No tif-file in directory of Frame1! Please provide a valid input with the -i1 argument.\033[0m" << endl;
+		cout << "inpath1: " << inpath1 << endl;
+		return -1;
+	}
+	else if (is_rgb)
+	{
+		cout << "\033[1;31mError! RGB images are currently not supported!\033[0m" << endl;
+		return -1;
+	}
+	////////////////////////
 
+	//read greyscale images from HDD
 	frame0 = hdcom.GetTif_unknowndim_32bit(inpath0, shape, zrange, true);
 	frame1 = hdcom.GetTif_unknowndim_32bit(inpath1, shape, zrange, true);
 
@@ -719,44 +677,6 @@ int main(int argc, char* argv[])
 			swap(tmp, background_mask); free(tmp);
 			//tmp = resample::linear_coons(background_mask, shape, tmp, newshape); swap(tmp, background_mask); free(tmp);
 			shape[0] = newshape[0]; shape[1] = newshape[1]; shape[2] = newshape[2];
-		}
-
-		if (peek_mode)
-		{
-			std::cout << "PEEK mode!" << endl;
-			long long int nslice = shape[0]*shape[1];
-			long long int nstack = shape[2]*nslice;
-			float* newmask = (float*) calloc(nstack,sizeof(*newmask));
-
-			#pragma omp parallel for
-			for (long long int idx = 0; idx < nstack; idx++)
-			{
-				float val1 = background_mask[idx];
-				newmask[idx] = val1;
-
-				//kill peek voxels where all neighbours are PEEK
-				if(val1 == 2)
-				{
-					int z = idx/nslice;
-					int y = (idx-z*nslice)/shape[0];
-					int x = (idx-z*nslice-y*shape[0]);
-
-					if (x+1 < shape[0] && x-1 >= 0 && y+1 < shape[1] && y-1 >= 0 && z+1 < shape[2] && z-1 >= 0)
-					{
-						for(int i = 0; i < 27; i++)
-						{
-							int z1 = i/9;
-							int y1 = (i-z1*9)/3;
-							int x1 = i-z1*9-y1*3;
-
-							z1 -= 1; y1 -= 1; x1 -= 1;
-							if (background_mask[idx+z1*nslice+y1*shape[0]+x1] != val1) break;
-							if (i == 26) newmask[idx] = 0;
-						}
-					}
-				}
-			}
-			free(background_mask); swap(background_mask, newmask);
 		}
 
 		if(0==1){
@@ -903,22 +823,6 @@ int main(int argc, char* argv[])
 			aux::transform_values(params.preprocessing.intensity_transform2, frame0, shape);
 			aux::transform_values(params.preprocessing.intensity_transform2, frame1, shape);
 		}
-
-		/*histo::Histogram histo;
-		histo.ignore_zero = true;
-		std::vector<double> histobins0, histobins1,histoedges;
-		histo.calculatehistogram(frame0, shape,256,0.0,1.0,histobins0,histoedges);
-		histo.calculatehistogram(frame1, shape,256,0.0,1.0,histobins1,histoedges);
-		std::vector<double> bincenters = histo.binedges2bincenter(histoedges);
-		ofstream histofile;
-		cout << "writing: " << outpath+"/input_histogram.csv" << endl;
-		histofile.open(outpath+"/input_histogram.csv", std::ofstream::out);
-		for(int i = 0; i < bincenters.size(); i++) histofile << bincenters[i] << "," << histobins0[i] << "," << histobins1[i] << "\n";
-		histofile.close();
-		return 0;*/
-
-		//hdcom.SaveTifSequence_32bit(frame0, shape, outpath+"/test/","test", true);
-		//return 0;
 	}
 	else {
 		//adjust alpha to intensity range
@@ -933,9 +837,6 @@ int main(int argc, char* argv[])
 		frame0_backup = aux::backup_imagestack(frame0, shape);
 		frame1_backup = aux::backup_imagestack(frame1, shape);
 		shape_backup[0] = shape[0]; shape_backup[1] = shape[1]; shape_backup[2] = shape[2];
-
-		//cout << "Temporary Export" << endl;
-		//hdcom.SaveTifSequence_32bit(frame0, shape, outpath+"/frame0/", "reference", true);
 	}
 
 	std::cout << "applying prefilter...           \r"; std::cout.flush();
@@ -1039,15 +940,6 @@ int main(int argc, char* argv[])
 				confidencemap[pos] = 0.0f;
 		}
 	}
-
-	/*cout << "adjusting y-boundaries of mask" << endl;
-	#pragma omp parallel for
-	for (long long int pos = 0; pos < nstack; pos++)
-	{
-		int z = pos/nslice;
-		int y = (pos-z*nslice)/shape[0];
-		if (y <= 12 || shape[1]-y <= 12) confidencemap[pos] = 0;
-	}*/
 
 	if (params.confidence.export_mask)
 	{
@@ -1301,8 +1193,8 @@ int main(int argc, char* argv[])
 	{
 		if(params.special.binned_output)
 		{
-			hdcom.SaveTif_unknowndim_32bit(frame0,        shape, outpath+"/frame0/", "frame0_");
-			hdcom.SaveTif_unknowndim_32bit(frame1,        shape, outpath+"/frame1/", "frame1_");
+			hdcom.SaveTif_unknowndim_32bit(frame0, shape, outpath+"/frame0/", "frame0_");
+			hdcom.SaveTif_unknowndim_32bit(frame1, shape, outpath+"/frame1/", "frame1_");
 		}
 		else
 		{
@@ -1366,20 +1258,6 @@ int main(int argc, char* argv[])
 
 		pre_quality = anal::get_qualitymeasures(frame0, frame1, result, shape, background_mask, params.confidence.background_mask);
 
-		float* bone_mask;
-		if(bone_quality_check && params.confidence.background_mask)
-		{
-			//set bone mask
-			bone_mask = (float*) calloc(nstack, sizeof(*bone_mask));
-			#pragma omp parallel for reduction(+:bone_count, bone_mean)
-			for(long long int idx = 0; idx < nstack; idx++)
-				if(background_mask[idx] == 1 || background_mask[idx] == 128){
-					bone_mask[idx] = 1; bone_count++; bone_mean += frame0[idx];}
-
-			bone_mean /= bone_count;
-			pre_quality_bone = anal::get_qualitymeasures(frame0, frame1, result, shape, bone_mask, params.confidence.background_mask);
-		}
-
 		//warp to solution
 		frame1 = warp::warpFrame1_xyz(frame0, frame1, result, shape, &params);
 
@@ -1387,21 +1265,13 @@ int main(int argc, char* argv[])
 		{
 			if (shape[2] == 1) hdcom.Save2DTifImage_32bit(frame1, shape, outpath, "warped",0);
 			else hdcom.SaveTifSequence_32bit(frame1, shape, outpath+"/warped/", "warped", false);
-
-			//hdcom.Save2DTifImage_32bit(frame1, shape, outpath, "warped",shape[2]/2*nslice);
 		}
 
 		//get quality measures
 		post_quality = anal::get_qualitymeasures(frame0, frame1, result, shape, background_mask, params.confidence.background_mask);
 
-		if(bone_quality_check && params.confidence.background_mask)
-			post_quality_bone = anal::get_qualitymeasures(frame0, frame1, result, shape, bone_mask, params.confidence.background_mask);
-
 		if (export_error_image)
 		{
-			//should be absolute and relative to bone
-			//get EV and export correlation in bone only
-
 			float* error_image = (float*) calloc(nstack, sizeof(*error_image));
 			#pragma omp parallel for reduction(+: relative_bone_error)
 			for (long long int idx = 0; idx < nstack; idx++)
@@ -1410,12 +1280,7 @@ int main(int argc, char* argv[])
 				{
 					double val0 = frame0[idx];
 					if(fabs(val0) > 1e-6)
-					{
-						error_image[idx] = fabs((frame1[idx]-val0));
-
-						if(bone_quality_check && params.confidence.background_mask && bone_mask[idx] != 0)
-							relative_bone_error += error_image[idx]/bone_mean;
-					}
+					    error_image[idx] = fabs((frame1[idx]-val0));
 				}
 			}
 			relative_bone_error /= bone_count;
@@ -1427,95 +1292,10 @@ int main(int argc, char* argv[])
 		std::cout << "rel_valid: " << post_quality[0] << std::endl;
 		std::cout << "cross-corr: " << pre_quality[1] << " --> "  << post_quality[1] << std::endl;
 		std::cout << "mean ssd: " << pre_quality[2] << " --> \033[1;36m"  << post_quality[2] << "\033[0m" << std::endl;
-
-		if(bone_quality_check && params.confidence.background_mask){
-			std::cout << "cross-corr(bone): " << pre_quality_bone[1] << " --> "  << post_quality_bone[1] << std::endl;
-			std::cout << "rel. bone error: " << relative_bone_error << std::endl;
-		}
-
-		//anal::get_autocorrelation(frame0, shape);
 		std::cout << "----------------------------" << std::endl;
 
-		//return 0;
 	}
 	///////////////////////////////////////////////////////////////////////////////////
-
-	//minimize translation in mask or whole image when none provided
-	if (eliminate_motion != "none")
-	{
-		if(inpath_mask0 != "none")
-		{
-			if (eliminate_motion == "translation") rbmotion::eliminate_translation(result,background_mask,shape,0,true);
-			else if (eliminate_motion == "rigid_body") rbmotion::eliminate_rigidbody_motion(result, background_mask, shape, 0, 0.1, 2.);
-			else cout << "unknown_elimination!" << endl;
-		}
-		else
-		{
-			if (eliminate_motion == "translation") rbmotion::eliminate_translation(result,shape,true);
-			else if (eliminate_motion == "rigid_body") rbmotion::eliminate_rigidbody_motion(result, shape, 0.1, 2.);
-			else cout << "unknown_elimination!" << endl;
-		}
-	}
-
-	//export to separate program
-	if (track_fissures)
-	{
-		//float* divergence = anal::plot_fissures(result, frame0, frame1, background_mask, shape, "fourthorder");
-		float *divergence = anal::calc_from_green_strain(result, shape,"volstrain", "fourthorder");
-
-		if(inpath_mask0 != "none")
-		{
-			cout << "averages for " << inpath1 << endl;
-			float *straintensor = anal::calc_from_green_strain(result, shape,"straintensor", "fourthorder");
-			//float *maxshear1 = anal::calc_from_green_strain(result, shape,"maximumshear", "fourthorder");
-			//float *maxshear2 = anal::calc_from_green_strain(result, shape,"maxshear", "fourthorder");
-			float *vonMises = anal::calc_from_green_strain(result,shape,"vonMisesStrain","fourthorder");
-
-			float* Exx = aux::project_average_through_mask(straintensor, background_mask,shape,0,false, "mean Exx");
-			float* Eyy = aux::project_average_through_mask(straintensor+nstack, background_mask,shape,0,false, "mean Eyy");
-			float* Ezz = aux::project_average_through_mask(straintensor+2*nstack, background_mask,shape,0,false, "mean Ezz");
-			aux::project_average_through_mask(straintensor+3*nstack, background_mask,shape,0,false, "mean Exy");
-			aux::project_average_through_mask(straintensor+4*nstack, background_mask,shape,0,false, "mean Exz");
-			aux::project_average_through_mask(straintensor+5*nstack, background_mask,shape,0,false, "mean Eyz");
-
-			std::vector<float> mean_displacements = anal::average_vectormagnitude_masked(result, background_mask, shape);
-			cout << "mean displ. magnitude: " << mean_displacements[0] << endl;
-			cout << "mean displ. magnitude xy: " << mean_displacements[1] << endl;
-			cout << "mean displ. magnitude yz: " << mean_displacements[2] << endl;
-			cout << "mean abs. displ. x: " << mean_displacements[3] << endl;
-			cout << "mean abs. displ. y: " << mean_displacements[4] << endl;
-			cout << "mean abs. displ. z: " << mean_displacements[5] << endl;
-			cout << "mean displ. x: " << mean_displacements[6] << endl;
-			cout << "mean displ. y: " << mean_displacements[7] << endl;
-			cout << "mean displ. z: " << mean_displacements[8] << endl;
-
-			int tmpshape[2] = {shape[1], shape[2]};
-			//hdcom.Save2DTifImage_32bit(Exx,tmpshape,outpath,"meanabsExx",0);
-			//hdcom.Save2DTifImage_32bit(Eyy,tmpshape,outpath,"meanabsEyy",0);
-			//hdcom.Save2DTifImage_32bit(Ezz,tmpshape,outpath,"meanabsEzz",0);
-
-			//float* meanshear1 = aux::project_average_through_mask(maxshear1, background_mask,shape,0,false, "mean maxshear");
-			//float* meanshear2 = aux::project_average_through_mask(maxshear2, background_mask,shape,0,false, "mean maxshear");
-
-			//hdcom.Save2DTifImage_32bit(meanshear1,tmpshape,outpath,"meanShear1",0);
-			//hdcom.Save2DTifImage_32bit(meanshear2,tmpshape,outpath,"meanShear2",0);
-
-			//float* meanstrain = aux::project_average_through_mask(divergence, background_mask,shape,0,false, "mean volstrain");
-			//hdcom.Save2DTifImage_32bit(meanstrain,tmpshape,outpath,"meanStrain",0);
-
-			float* evVM = aux::project_average_through_mask(vonMises, background_mask,shape,0,false, "mean vonMises");
-			hdcom.Save2DTifImage_32bit(evVM,tmpshape,outpath,"meanVonMisesStrain",0);
-
-			//if (shape[2] == 1) hdcom.SaveTif_unknowndim_32bit(vonMises, shape, outpath, "vonMisesStrain");
-			//else hdcom.SaveTif_unknowndim_32bit(vonMises, shape, outpath+"/vonMisesStrain/", "strain");
-
-			free(Exx); free(Eyy); free(Ezz); free(straintensor); free(vonMises); free(evVM);
-		}
-
-
-		if (shape[2] == 1) hdcom.SaveTif_unknowndim_32bit(divergence, shape, outpath, "volstrain");
-		else hdcom.SaveTif_unknowndim_32bit(divergence, shape, outpath+"/volstrain/", "strain");
-	}
 
 	//Kill background shift for visualization
 	///////////////////////////////////////////////////////////////////////////////////
@@ -1573,15 +1353,6 @@ int main(int argc, char* argv[])
 		if (shape[2] == 1) hdcom.SaveTif_unknowndim_32bit(background_mask, shape, outpath, "warped_mask");
 		else hdcom.SaveTif_unknowndim_32bit(background_mask, shape, outpath+"/warped_mask/", "mask_");
 	}
-	//measure the average displacement of the pin
-	std::vector<float> pin_displacement;
-	if (measure_pin_displacement && inpath_mask0 != "none")
-	{
-		float pin_value = 3.f;
-		float *labeled_mask = hdcom.GetTif_unknowndim_32bit(inpath_mask0, shape, zrange, true);
-		pin_displacement = anal::measure_pin_displacement(pin_value, result, labeled_mask, shape);
-		free(labeled_mask);
-	}
 	///////////////////////////////////////////////////////////////////////////////////
 
 	optflow_solver->free_device();
@@ -1628,20 +1399,12 @@ int main(int argc, char* argv[])
 
 		if (params.preprocessing.normalization.find("linear") != string::npos)
 			logfile << "\n    histogram_correlation: " << histogram_correlation.first << " --> "  << histogram_correlation.second << "\n";
-		if(check_quality && bone_quality_check && params.confidence.background_mask){
-			logfile << "cross-corr(bone): " << pre_quality_bone[1] << " --> "  << post_quality_bone[1] << "\n";
-			logfile << "      mssd(bone): " << pre_quality_bone[2] << " --> "  << post_quality_bone[2] << "\n";
-			logfile << " rel. bone error: " << relative_bone_error << "\n";
-		}
 		if (solver_correlation != 0.0)
 			logfile << "solver_correlation: " << solver_correlation << "\n";
 		if (check_quality){
 			logfile << "\n    cross-corr: " << pre_quality[1] << " --> "  << post_quality[1] << "\n";
 			logfile << "          mssd: " << pre_quality[2] << " --> "  << post_quality[2] << "\n";
 		}
-		if (measure_pin_displacement && inpath_mask0 != "none")
-			logfile << "\n    pin_displacement: " << pin_displacement[0] << " " << pin_displacement[1] << " " << pin_displacement[2] << "\n";
-
 		logfile << "\narguments:\n";
 		for (uint16_t i = 1; i < argc; i++) logfile << argv[i] << " ";
 		logfile << "\n";
