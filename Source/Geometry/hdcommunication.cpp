@@ -26,7 +26,12 @@ namespace hdcom
         }
         return mdret;
     }
-    bool path_exists(const std::string& path)
+    bool file_exists(const std::string& filename)
+    {
+    	struct stat buffer;
+    	return (stat (filename.c_str(), &buffer) == 0);
+    }
+    bool HdCommunication::path_exists(const std::string& path)
     {
         struct stat info;
         if (stat(path.c_str(), &info) != 0)
@@ -35,8 +40,78 @@ namespace hdcom
         }
         return (info.st_mode & S_IFDIR) != 0;
     }
+    bool HdCommunication::is_absolute_path(const std::string& path)
+    {
+        bool absolute_path = false;
+	std::string rootpath = path.substr(0, path.rfind("/", path.length()-2)+1);
+
+        while(!absolute_path)
+        {
+            if(!path_exists(rootpath)) rootpath = rootpath.substr(0, rootpath.rfind("/", rootpath.length()-2)+1);
+	    else return true;
+
+	    if (rootpath.length() < 2)
+		break;
+        }
+        return absolute_path;
+    }
 
 	/*************** Reading unknown dimensionality ***************/
+	std::vector<std::string> HdCommunication::GetFilelist_And_ImageSequenceDimensions(std::string path, int outshape[3], bool &is_rgb)
+	{
+		std::vector<std::string> filelist;
+
+		if(hasEnding(path, "tif") || hasEnding(path, "tiff"))
+		{
+			filelist.push_back(path);
+
+			if(!file_exists(path)) filelist[0] = "missing";
+			return filelist;
+		}
+		else
+		{
+			if(!path_exists(path))
+			{
+				filelist.push_back("missing");
+				return filelist;
+			}
+
+			GetFilelist(path+"/", filelist);
+
+			if (filelist.size() == 0)
+			{
+			    filelist.push_back("no tif");
+			    return filelist;
+			}
+		}
+
+		char *inpath;
+		inpath = new char[filelist[0].length()+1];
+		strcpy(inpath, filelist[0].c_str());
+
+		TIFFSetWarningHandler(DummyHandler);
+		TIFF* tif = TIFFOpen(inpath, "r");
+		short nsamples;
+
+		//check image size
+		if (tif)
+		{
+			 TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &outshape[1]); //dimension1
+			 TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &outshape[0]); //dimension0
+			 TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
+			 outshape[2] = filelist.size();
+
+			 //std::cout << nsamples << std::endl;
+
+			 is_rgb = (nsamples == 3 || nsamples == 4) ? true : false;
+		}
+		else
+			std::cout << "Error! not a tif-sequence!" << std::endl;
+
+		TIFFClose(tif);
+
+		return filelist;
+	}
 	float* HdCommunication::GetTif_unknowndim_32bit(std::string path, int outshape[3], bool dspprogress)
 	{
 		if(hasEnding(path, "tif") || hasEnding(path, "tiff"))

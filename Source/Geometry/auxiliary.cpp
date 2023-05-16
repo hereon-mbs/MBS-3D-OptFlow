@@ -3,6 +3,11 @@
 #include <algorithm>
 #include <omp.h>
 #include <math.h>
+
+#include <libgen.h>
+#include <unistd.h>
+#include <linux/limits.h>
+
 #include "histogram.h"
 #include "../protocol_parameters.h"
 #include "hdcommunication.h"
@@ -18,6 +23,16 @@ namespace aux
         while(outstring.length() < zfill)
             outstring = "0" + outstring;
         return outstring;
+    }
+    std::string get_active_directory()
+    {
+	char result[PATH_MAX];
+	ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+        const char *tmppath;
+        if (count != -1) {
+            tmppath = dirname(result);
+        }
+        return std::string(tmppath);
     }
 
     /*Numpy-like

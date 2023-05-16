@@ -26,6 +26,7 @@ namespace hdcom
     	short last_bps = 0;
 
     	/*************** Reading and saving unknown dimensionality ***************/
+	std::vector<std::string> GetFilelist_And_ImageSequenceDimensions(std::string path, int outshape[3], bool &is_rgb);
     	float* GetTif_unknowndim_32bit(std::string inpath, int outshape[3], bool dspprogress=false);
     	float* GetTif_unknowndim_32bit(std::string path, int outshape[3], std::pair<int,int> zrange, bool dspprogress);
     	void SaveTif_unknowndim_32bit(float *image, int imgshape[3], std::string path, std::string name, std::string subdir3D = "", int slice_nr = -1);
@@ -69,6 +70,8 @@ namespace hdcom
         int GetFilelist(std::string const directory, std::vector<std::string> &outfiles);
         std::vector<std::string> GetFilelist(std::string path, int outshape[3]);
         void makedir(const std::string path);
+	bool path_exists(const std::string& path);
+	bool is_absolute_path(const std::string& path);
 
     private:
         bool hasEnding(std::string const &str1, std::string const &str2);

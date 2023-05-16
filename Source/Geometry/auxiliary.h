@@ -12,6 +12,7 @@ namespace aux
     /*String-Manipulation
     *********************************************************/
     std::string zfill_int2string(int inint, const unsigned int &zfill);
+    std::string get_active_directory();
 
     /*Numpy-like
     *********************************************************/
