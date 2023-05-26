@@ -9,9 +9,11 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
 **26.04.2023:** Dumped the source code for knowledgeable users.
 
 **Pending Updates**:
+  - Bash file to run demo
+  - Documentation of voxel2mesh
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
-  - Upload demo projects (ray cartilage; NiTi wires)
+  - Upload second demo project (NiTi wires)
 
 <br>
 
@@ -36,6 +38,12 @@ You need to provide two greyscale tif-image sequences (8bit, 16bit or 32bit): a 
 ***<p align="center"> ./mbsoptflow -i0 /path/to/my/reference/data/ -i1 /path/to/my/displaced/data/ -o /path/to/dvc/output/</p>***
 
 A full list of available arguments and flags will follow. Right now you need to check the section *extract command line arguments* in *main.cpp* and/or *protocol_parameters.h*. The latter sets the default parameters used that can be overwritten by the arguments.
+
+<br>
+
+### Basic Analysis
+
+The supporting programm voxel2mesh allows mapping the displacement vectors calculated with DVC on a Medit mesh (*.mesh) or VTK mesh (*.vtk). Documentation will be provided.
 
 <br>
 
