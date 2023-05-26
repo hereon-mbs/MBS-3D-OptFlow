@@ -3,11 +3,11 @@
 ############# Parameters ################
 #########################################
 CUDA_COMPUTECAPABILITY=70
-#CUDA_COMPUTECAPABILITY=70
 NVCC_PATH="/usr/local/cuda-10.0/bin/nvcc"
 
 BUILD_BINARY=true
-UNZIP_DEMOS=false
+BUILD_STRAINMAPPER=true
+UNZIP_DEMOS=true
 #########################################
 #########################################
 
@@ -67,6 +67,33 @@ else
     then
         echo "Cannot build without CUDA support!"
     fi
+fi
+
+if $BUILD_STRAINMAPPER
+then
+    echo "building voxel2mesh mapper"
+    echo "--------------------------------------------------"
+    echo "compiling displacement_derivatives.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Derivatives/displacement_derivatives.cpp" -o $PWD"/Postprocessing/Build/displacement_derivatives.o"
+    echo "compiling polar_decomposition.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Derivatives/polar_decomposition.cpp" -o $PWD"/Postprocessing/Build/polar_decomposition.o"
+    echo "compiling meshio.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/meshio.cpp" -o $PWD"/Postprocessing/Build/meshio.o"
+    echo "compiling auxiliary.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/auxiliary.cpp" -o $PWD"/Postprocessing/Build/auxiliary.o"
+    echo "compiling hdcommunication.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/hdcommunication.cpp" -o $PWD"/Postprocessing/Build/hdcommunication.o"
+    echo "compiling filtering.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/filtering.cpp" -o $PWD"/Postprocessing/Build/filtering.o"
+    echo "compiling taubin_smoothing.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/taubin_smoothing.cpp" -o $PWD"/Postprocessing/Build/taubin_smoothing.o"
+    echo "compiling triangles.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/Geometry/triangles.cpp" -o $PWD"/Postprocessing/Build/triangles.o"
+    echo "compiling main.cpp"
+    g++ -w -fexceptions -O3 -std=c++11 -fopenmp  -c $PWD"/Postprocessing/main.cpp" -o $PWD"/Postprocessing/Build/main.o"
+    echo "linking voxel2mesh"
+    g++  -o $PWD/voxel2mesh $PWD/Postprocessing/Build/main.o  $PWD/Postprocessing/Build/auxiliary.o $PWD/Postprocessing/Build/hdcommunication.o $PWD/Postprocessing/Build/displacement_derivatives.o $PWD/Postprocessing/Build/polar_decomposition.o $PWD/Postprocessing/Build/meshio.o $PWD/Postprocessing/Build/filtering.o $PWD/Postprocessing/Build/taubin_smoothing.o $PWD/Postprocessing/Build/triangles.o -ltiff -lgomp
+    echo "--------------------------------------------------"
 fi
 
 if $UNZIP_DEMOS
