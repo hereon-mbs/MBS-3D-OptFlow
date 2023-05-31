@@ -26,6 +26,8 @@ Default derivatives are calculated according to Farid and Simoncelli: ...
 <br>
 Not to forget the fundamental works of Brox and Weickert: ...
 
+<br>
+
 ## Quick Start Guide
 
 ### Compilation
@@ -68,6 +70,8 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 ## Demos
 [Basic Functionality](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/README.md)
 
+<br>
+
 ## Exemplary Program Calls
 
 [Example Call 1: Cracks and strain in bone (large dataset, localglobal method)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call1.md)
@@ -75,11 +79,13 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 [Example Call 2: Tensile tests on SMA wires (motion across image boundary, little textures)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call2.md)
 <br>
 [Example Call 3: Rearranged sand grains (warping, very large dataset)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call3.md)
+
 <br>
 
 ## Publications
 When using the code please cite:...
 The code was also used in:...
+<br>
 
 ## Acknowledgements
 The project was performed at... 
