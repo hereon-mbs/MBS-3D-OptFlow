@@ -1020,7 +1020,7 @@ namespace filter
 		std::vector<float> kernel(2*fsize+1, 0);
 		for(uint16_t p=0; p<kernel.size();p++)
 		{
-			kernel[p] = std::max(1e-12f, exp(-((p-fsize)*(p-fsize))/(sigma*sigma*2)));
+			kernel[p] = std::max(1e-12f, (float) exp(-((p-fsize)*(p-fsize))/(sigma*sigma*2)));
 			sum += kernel[p];
 		}
 		for(uint16_t p=0; p<kernel.size();p++) kernel[p] /= sum;
