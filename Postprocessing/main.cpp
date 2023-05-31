@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     //In this version there is only Gaussian blurring available.
     //It is recommended to apply some king of blur for introducing ca correlation length to the data.
     //This is required to have a length scale for strains that otherwise do not make sense.
-    bool blur_displacements = false;
+    bool blur_displacements = true;
     float blur_sigma = 3.0;
 
     bool map_cell_vectors = true;
@@ -103,7 +103,8 @@ int main(int argc, char* argv[])
     if (inpath_mesh == "dummy")
     {
         cout << "Error! No mesh with -i provided!" << endl;
-        return -1;    }
+        return -1;
+    }
     //////////////////////////////////////////////////////////////////////////////////////
 
     //Manage directories
