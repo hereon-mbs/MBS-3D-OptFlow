@@ -1,6 +1,6 @@
 ### Push-out tests on bone-screw implant systems (detecting strain and cracks)
 
-*./mbsoptflow -i0 /reference/path/ -i1 /frame1/path/ -o /outpath/ -m /mask/path/<br>-alpha 0.05 -level 12 -scale 0.8 -norm histogram_linear_mask -prefilter gaussian 1 --median -gpu0 0<br>--export_warp --conhull_maxz -localglobal 3 -transform1 sqrt --extrapolate --mosaic_approximation -overlap 100 --export_error --bone_quality*
+*./mbsoptflow -i0 /reference/path/ -i1 /frame1/path/ -o /outpath/ -m /mask/path/<br>-alpha 0.05 -level 12 -scale 0.8 -norm histogram_linear_mask -prefilter gaussian 1 --median -gpu0 0<br>--export_warp --conhull_maxz -localglobal 3 -transform1 sqrt --extrapolate --mosaic_approximation -overlap 100 --export_error*
 
 **Lessons:**
 <br>
