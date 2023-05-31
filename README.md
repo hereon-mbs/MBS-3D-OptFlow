@@ -17,6 +17,15 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
   - Upload second demo project (NiTi wires)
 <br>
 
+## References
+The code is a further development of 2D code provided by A. Ershov: ...
+<br>
+Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by Liu: ...
+<br>
+Default derivatives are calculated according to Farid and Simoncelli: ...
+<br>
+Not to forget the fundamental works of Brox and Weickert: ...
+
 ## Quick Start Guide
 
 ### Compilation
@@ -67,3 +76,11 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 <br>
 [Example Call 3: Rearranged sand grains (warping, very large dataset)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call3.md)
 <br>
+
+## Publications
+When using the code please cite:...
+The code was also used in:...
+
+##Acknowledgements
+Funding was received from...
+
