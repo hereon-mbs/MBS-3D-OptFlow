@@ -536,6 +536,7 @@ int main(int argc, char* argv[])
 	////////////////////////
 	if (!hdcom.is_absolute_path(inpath0) && hdcom.path_exists(active_path+"//"+inpath0)) inpath0 = active_path+"//"+inpath0;
 	if (!hdcom.is_absolute_path(inpath1) && hdcom.path_exists(active_path+"//"+inpath1)) inpath1 = active_path+"//"+inpath1;
+	if (inpath_mask0 != "none" && !hdcom.is_absolute_path(inpath_mask0) && hdcom.path_exists(active_path+"//"+inpath_mask0)) inpath_mask0 = active_path+"//"+inpath_mask0;
 	
 	std::string rootpath = inpath0.substr(0, inpath0.rfind("/", inpath0.length()-2)+1);
 	if (outpath.length() == 0) outpath = rootpath + "/optflow/";
