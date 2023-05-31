@@ -5,7 +5,8 @@ If input images were properly denoised, sigma of the Gaussian kernel can often b
 This is preferable because blurring objects increases the spatial uncertainty in the calculated displacements.
 The following options are available:
 
+| argument &nbsp; | &nbsp; &nbsp; default &nbsp; &nbsp; &nbsp; | &nbsp; explanation &nbsp; |
+|---|---|---|
+| **-prefilter** | gaussian 1.0 | Follow the argument either with *none* or a string followed by a float defining the kernel. Available: *gaussian*, *median*, *median_simple* |
+| **-prefilter2** | none | Activates a prefilter that is only applied to the zero-level of the image pyramid. |
 
-| argument | value | explanation |
-|--------|------------------|-----------|
-| **-iter**|integer|(*optional*, default=4) number of denoising iterations|
