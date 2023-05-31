@@ -25,3 +25,8 @@ The script allows tuning some of the basic DVC parameters:
 - [***LEVEL*** and ***SCALE***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/gaussian_pyramid.md)
 - [***ALPHA***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/smoothing_term.md)
 - [***NORMALIZATION***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/intensity_normalization.md)
+- [***PREFILTER***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/filtering.md)
+
+Advanced parameters:
+- LOCALGLOBAL
+- DERIVATIVES
