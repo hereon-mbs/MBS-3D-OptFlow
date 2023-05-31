@@ -12,6 +12,7 @@ UNZIP_DEMOS=true
 #########################################
 
 mkdir -p "Build"
+mkdir -p "Postprocessing/Build"
 
 function cpu_compile()
 {
