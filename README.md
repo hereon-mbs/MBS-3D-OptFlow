@@ -1,3 +1,5 @@
+![](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/syn0134_deformation.gif)
+
 # MBS-3D-OptFlow
 
 MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for Nvidia GPUs intended for the use with synchrotron µ-CT volume image data.
