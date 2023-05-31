@@ -52,7 +52,7 @@ The supporting programm voxel2mesh allows mapping the displacement vectors calcu
 
 ## Exemplary Program Calls
 
-[ExampleCallBone](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call1.md)
+[Example Call 1: Cracks and strain in bone (large dataset, localglobal method)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call1.md)
 
 <br>
 
