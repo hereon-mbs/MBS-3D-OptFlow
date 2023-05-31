@@ -50,10 +50,16 @@ The supporting programm voxel2mesh allows mapping the displacement vectors calcu
 
 <br>
 
+### Preprocessing
+
+It is recomended to reduce noise and artefacts as good as possible. Furthermore, preregistering with a rigid body transformation maximizes the field of view and minimizes larger motions across the image boundaries. A basic tool will follow.
+
+<br>
+
 ## Exemplary Program Calls
 
 [Example Call 1: Cracks and strain in bone (large dataset, localglobal method)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call1.md)
-
+[Example Call 2: Tensile tests on SMA wires (motion across image boundary, little textures)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call2.md)
 <br>
 
 ### Tensile tests on wires made of shape memory alloys
