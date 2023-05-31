@@ -32,3 +32,14 @@ With the ***-transform1*** argument followed by a string an additional arithmeti
 This may be relevant if image equalization equivalent to Fiji/ImageJ is desired. ImageJ performs histogram equalization on the square root of intensities.
 <br>
 Arithmetic operations after image normalization are available via the ***-transform2*** argument.
+
+#### Compile time parameters
+
+| parameter | type | default | explanation |
+|-----------|------|---------|-------------|
+| extrapolate_intensities | bool | false | Not advised. When true, intensities outside the dynamic range are scaled to values smaller/larger than 0/1. This may yield unexpected behavior (and create large data term values for outlier voxels). Option is not available with histogram equalization. | 
+| ignore_zero | bool | true | By default voxels with intensity 0 are ignored in calculating the stack histogram because these may be values outside the reconstructed region of interest. |
+| rescale_zero | bool | false | If true, intensities that are 0 before normalization will remain 0. |
+| sqrt_equalization | bool | false | Option to perform less extreme, ImageJ-like histogram equalization. Switchable with *--sqrt_equalize*. Potentially discontinued. Equalization is rarely the smartest option anyways. |
+| smoothed_equalization | int | 0 | smooth the equalization with a mean filter when != 0 |
+
