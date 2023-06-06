@@ -45,6 +45,11 @@ The output will mention what kind of derivatives will be used for calculating da
 <br>
 <br>
 The output generated when walking through the image pyramid states the **pyramid level** followed by the **image dimensions** at that level in parenthesis and the **outer iteration count**. Instead of running a fixed amount of iterations we check the **mean relative change in the displacement vectors** every ten iterations and continue to the next higher level once it drops below 0.5%. Thus, at least 20 iterations are calculated at every pyramid level. Using dynamic iteration counts allows us to avoid underfitting and motions will be identified higher in the pyramid where calculations are less costly. Next to the mean relative change the current **maximal change in any single displacement vector** and the achieved **(unmasked) cross-correlation** between Frame0 and Frame1 are also reported.
+<br>
+<br>
+When the zero pyramid level terminates parameters for checking the consistency of the result are provided. These are:
+- the relative amount of voxels remaining in the region of interest (**rel_valid**) because a reasonable evaluation should only exhibited little motion across the exterior image boundaries
+- the 
 
 Advanced parameters:
 - LOCALGLOBAL
