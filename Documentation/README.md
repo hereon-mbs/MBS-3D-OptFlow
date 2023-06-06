@@ -5,3 +5,4 @@
 - [smoothing_term.md](smoothing_term.md)
 - [derivatives.md](derivatives.md)
 - [filtering.md](filtering.md)
+- [localglobal.md](localglobal.md)
