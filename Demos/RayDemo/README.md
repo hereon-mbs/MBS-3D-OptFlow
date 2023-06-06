@@ -28,7 +28,7 @@ The script allows tuning some of the basic DVC parameters:
 - [***PREFILTER***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/filtering.md)
 
 A successful program call should generate a terminal output similar to the following screenshot:
-
+![terminal output1](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/terminal_demo1.png)
 
 Advanced parameters:
 - LOCALGLOBAL
