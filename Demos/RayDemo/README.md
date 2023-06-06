@@ -27,6 +27,9 @@ The script allows tuning some of the basic DVC parameters:
 - [***NORMALIZATION***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/intensity_normalization.md)
 - [***PREFILTER***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/filtering.md)
 
+A successful program call should generate a terminal output similar to the following screenshot:
+
+
 Advanced parameters:
 - LOCALGLOBAL
 - DERIVATIVES
