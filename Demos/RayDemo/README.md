@@ -27,9 +27,26 @@ The script allows tuning some of the basic DVC parameters:
 - [***NORMALIZATION***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/intensity_normalization.md)
 - [***PREFILTER***](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/filtering.md)
 
-A successful program call should generate a terminal output similar to the following screenshot:
-![terminal output1](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/terminal_demo1.png)
+<picture>
+  <img src="terminal_demo1.png" width="500" title="terminal output" align="center">
+  <img alt="terminal_output_1">
+</picture>
+
+<br>
+<br>
+A successful program call should generate a terminal output similar to the above screenshot. When the program crashes a likely reason could be a faulty input directory. In the terminal the passed directory for Frame1 will be stated along with the identified stack sizes. These should be consistent for all data passed.
+<br>
+<br>
+
+The GPU configuration section identifies the required GPU memory. When GPU memory is exceeded you will have to run in mosaic mode. Whenever possible variables are calculated on-the-fly while keeping transfer to and from the GPU minimal. If the data term needs to be precalculated for inner iterations, e.g., in local-global mode, *psimap* will be active and additional memory is required. *confidencemap* is active because we are using a mask requiring one additional copy. The *rewarp* functionality is rarely used.
+<br>
+<br>
+The output will mention what kind of derivatives will be used for calculating data and smoothness term. The default smoothness term is anisotropic and non adaptive with respect to edge orientation.
+<br>
+<br>
+The output generated when walking through the image pyramid states the **pyramid level** followed by the **image dimensions** at that level in parenthesis and the **iteration count**. Instead of running a fixed amount of iterations we check the **mean relative change in the displacement vectors** every ten iterations and continue to the next higher level once it drops below 5%. Thus, at least 20 iterations are calculated at every pyramid level. Using dynamic iteration counts allows us to avoid underfitting and motions will be identified higher in the pyramid where calculations are less costly.
 
 Advanced parameters:
 - LOCALGLOBAL
 - DERIVATIVES
+- create warp and error
