@@ -52,6 +52,10 @@ int main(int argc, char* argv[])
     bool eliminate_rigidbodymotions = true;
     string motionmask = "mesh_surface"; //"mesh" or "mesh_surface"
     uint8_t motionlabel = 0;
+	
+    //Basic text output for mapped surface and volume values
+    bool print_meanvalues = true;
+    bool print_meanvalues_surface = true;
     //////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////
 
@@ -233,6 +237,29 @@ int main(int argc, char* argv[])
     }
     //////////////////////////////////////////////////////////////////////////////////////
 
+    //Scale to voxel size
+    //////////////////////////////////////////////////////////////////////////////////////
+    if (convert2physical){
+        cout << "scaling to voxel size of " << vxlsize << endl;
+        for (int i = 0; i < mesh.vertices.size(); i++)
+        {
+            mesh.vertices[i][0] *= vxlsize;
+            mesh.vertices[i][1] *= vxlsize;
+            mesh.vertices[i][2] *= vxlsize;
+        }
+        for (int i = 0; i < mesh.cell_vectors.size(); i++)
+            for (long long int idx = 0; idx < mesh.cell_vectors[i].size(); idx++){
+                mesh.cell_vectors[i][idx][0] *= vxlsize;
+                mesh.cell_vectors[i][idx][1] *= vxlsize;
+                mesh.cell_vectors[i][idx][2] *= vxlsize;}
+        for (int i = 0; i < mesh.vertex_vectors.size(); i++)
+            for (long long int idx = 0; idx < mesh.vertex_vectors[i].size(); idx++){
+                mesh.vertex_vectors[i][idx][0] *= vxlsize;
+                mesh.vertex_vectors[i][idx][1] *= vxlsize;
+                mesh.vertex_vectors[i][idx][2] *= vxlsize;}
+    }
+    //////////////////////////////////////////////////////////////////////////////////////
+
     //Grayscale labels on cells
     //////////////////////////////////////////////////////////////////////////////////////
     if(mesh.type == "volume" && grayscale_cell_labels.size() > 0)
@@ -264,30 +291,57 @@ int main(int argc, char* argv[])
         }
     }
     //////////////////////////////////////////////////////////////////////////////////////
-
-    //Scale to voxel size
+	
+    //Mean values in tetrahedra labels
     //////////////////////////////////////////////////////////////////////////////////////
-    if (convert2physical){
-        cout << "scaling to voxel size of " << vxlsize << endl;
-        for (int i = 0; i < mesh.vertices.size(); i++)
+    if (mesh.cell_labels_floating.size() > 0 && (print_meanvalues || print_meanvalues_surface))
+    {
+        std::cout << "-----------------------------" << std::endl;
+        if (print_meanvalues)
         {
-            mesh.vertices[i][0] *= vxlsize;
-            mesh.vertices[i][1] *= vxlsize;
-            mesh.vertices[i][2] *= vxlsize;
+        for (int p = 0; p < mesh.cell_labels_floating.size(); p++)
+        {
+            double mean = 0.0;
+            double stddev = 0.0;
+
+            for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                mean += mesh.cell_labels_floating[p][i];
+            mean /= mesh.cell_labels_floating[p].size();
+            for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                stddev += (mesh.cell_labels_floating[p][i]-mean)*(mesh.cell_labels_floating[p][i]-mean);
+
+            stddev = sqrt(stddev/(mesh.cell_labels_floating[p].size()-1));
+            cout << "mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (" << stddev << ")"<< endl;
         }
-        for (int i = 0; i < mesh.cell_vectors.size(); i++)
-            for (long long int idx = 0; idx < mesh.cell_vectors[i].size(); idx++){
-                mesh.cell_vectors[i][idx][0] *= vxlsize;
-                mesh.cell_vectors[i][idx][1] *= vxlsize;
-                mesh.cell_vectors[i][idx][2] *= vxlsize;}
-        for (int i = 0; i < mesh.vertex_vectors.size(); i++)
-            for (long long int idx = 0; idx < mesh.vertex_vectors[i].size(); idx++){
-                mesh.vertex_vectors[i][idx][0] *= vxlsize;
-                mesh.vertex_vectors[i][idx][1] *= vxlsize;
-                mesh.vertex_vectors[i][idx][2] *= vxlsize;}
+        std::cout << "-----------------------------" << std::endl;
+        }
+        if (print_meanvalues_surface)
+        {
+            std::vector<std::vector<int64_t>> exterior_surface = surfacemesh_compare::extract_exterior_surface_indexed(mesh.tetrahedra);
+            for (int q = 0; q < exterior_surface.size(); q++)
+            {
+                int p = exterior_surface[q][3];
+
+                double N = 0.0;
+                double mean = 0.0;
+                double stddev = 0.0;
+
+                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++){
+                    mean += mesh.cell_labels_floating[p][i];
+                    N++;
+                }
+                mean /= N;
+                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                    stddev += (mesh.cell_labels_floating[p][i]-mean)*(mesh.cell_labels_floating[p][i]-mean);
+
+                stddev = sqrt(stddev/(N-1));
+                cout << "mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (" << stddev << ")"<< endl;
+            }
+            std::cout << "-----------------------------" << std::endl;
+        }
     }
     //////////////////////////////////////////////////////////////////////////////////////
-
+	
     //Surface smoothing
     //////////////////////////////////////////////////////////////////////////////////////
     if(taubin_smoothing){
