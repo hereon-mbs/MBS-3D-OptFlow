@@ -44,7 +44,7 @@ The GPU configuration section identifies the required GPU memory. When GPU memor
 The output will mention what kind of derivatives will be used for calculating data and smoothness term. The default smoothness term is anisotropic and non adaptive with respect to edge orientation.
 <br>
 <br>
-The output generated when walking through the image pyramid states the **pyramid level** followed by the **image dimensions** at that level in parenthesis and the **iteration count**. Instead of running a fixed amount of iterations we check the **mean relative change in the displacement vectors** every ten iterations and continue to the next higher level once it drops below 5%. Thus, at least 20 iterations are calculated at every pyramid level. Using dynamic iteration counts allows us to avoid underfitting and motions will be identified higher in the pyramid where calculations are less costly.
+The output generated when walking through the image pyramid states the **pyramid level** followed by the **image dimensions** at that level in parenthesis and the **outer iteration count**. Instead of running a fixed amount of iterations we check the **mean relative change in the displacement vectors** every ten iterations and continue to the next higher level once it drops below 0.5%. Thus, at least 20 iterations are calculated at every pyramid level. Using dynamic iteration counts allows us to avoid underfitting and motions will be identified higher in the pyramid where calculations are less costly. Next to the mean relative change the current **maximal change in any single displacement vector** and the achieved **(unmasked) cross-correlation** between Frame0 and Frame1 are also reported.
 
 Advanced parameters:
 - LOCALGLOBAL
