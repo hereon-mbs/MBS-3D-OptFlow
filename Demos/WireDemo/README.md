@@ -1,4 +1,4 @@
-# Demo - Tensile Testing of Surface Etched NiTi-Wires
+## Tensile Testing of Surface Etched NiTi-Wires
 
 <br>
 In this demo we explore how to handle poorly textured samples with gradient based masking and how to minimize bias from larger motion across image boundaries.
