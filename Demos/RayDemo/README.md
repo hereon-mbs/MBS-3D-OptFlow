@@ -1,3 +1,7 @@
+<p align="right">
+  <img src="ray_deformation.png" width="500" title="deformation of ray cartilage">
+</p>
+
 ## Deformation of Ray Cartilage (Basic Functionality)
 
 This demo contains downsampled 8-bit grayscale files of µCT scans from ray cartilage. 
