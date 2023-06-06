@@ -9,3 +9,5 @@ By default moderate smoothing at 7% is performed:
 | argument | type | default | explanation |
 |----|----|----|----|
 | **-alpha** | float | 0.07 | Relative weight of the smoothing term. Note that the data term operates on the intensity gradient, i.e., low contrast regions appear to be smoothed out more than high contrast regions. Consider histogram equalization or other contrast enhancements when your feature of interest lies in a low contrast image region or other features, like a metallic object, dominate the contrast in your images. |
+
+### Available smoothness terms
