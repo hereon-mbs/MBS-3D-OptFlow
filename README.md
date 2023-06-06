@@ -66,6 +66,11 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 
 <br>
 
+<picture>
+  <img src="transversalcontraction.png" width="400" title="sintered alloy under load" align="left">
+  <img alt="AlloyDeforming">
+</picture>
+
 ## Demos 
 [Basic Functionality](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/README.md)
 <br>
