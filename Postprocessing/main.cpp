@@ -80,6 +80,11 @@ int main(int argc, char* argv[])
                 i++;
                 blur_sigma = std::atof(argv[i]);
             }
+	    else if (argument == "-vxl"){
+                i++;
+                vxlsize = std::atof(argv[i]);
+		convert2physical=true;
+            }
             else if (argument == "--taubin")
                 taubin_smoothing = true;
             else if (argument == "--vertices")
@@ -114,18 +119,22 @@ int main(int argc, char* argv[])
     //Manage directories
     //////////////////////////////////////////////////////////////////////////////////////
     hdcom::HdCommunication hdcom;
-	std::string active_path = aux::get_active_directory();
+    std::string active_path = aux::get_active_directory();
 
-	//test if provided path is absolute or relative
-	if (!hdcom.is_absolute_path(inpath_mesh) && hdcom.path_exists(active_path+"//"+inpath_mesh))
-        inpath_mesh = active_path+"//"+inpath_mesh;
-	if (inpath_displacements != "dummy" && !hdcom.is_absolute_path(inpath_displacements) && hdcom.path_exists(active_path+"//"+inpath_displacements))
+    //test if provided path is absolute or relative
+    struct stat buffer;   
+    if ((stat (inpath_mesh.c_str(), &buffer) != 0) && (stat ((active_path+"//"+inpath_mesh).c_str(), &buffer) == 0))
+	inpath_mesh = active_path+"//"+inpath_mesh;	
+    if (inpath_displacements != "dummy" && !hdcom.is_absolute_path(inpath_displacements) && hdcom.path_exists(active_path+"//"+inpath_displacements))
         inpath_displacements = active_path+"//"+inpath_displacements;
+    cout << "mesh_file: " << inpath_mesh << endl;
+    cout << "displacements: " << inpath_displacements << endl;
 
     string outpath = inpath_mesh.substr(0, inpath_mesh.rfind("/")+1);
     string outname = inpath_mesh.substr(inpath_mesh.rfind("/")+1, inpath_mesh.rfind(".")-(inpath_mesh.rfind("/")+1));
 
     cout << "output directory: " << outpath << endl;
+    cout << "------------------------" << endl;
     //////////////////////////////////////////////////////////////////////////////////////
 
     //Acquire Mesh (omit all previous labels)
@@ -178,6 +187,8 @@ int main(int argc, char* argv[])
         uz = hdcom.GetTif_unknowndim_32bit(inpath_displacements+"/dz/", shape, true);
         long long int nslice = shape[0]*shape[1]; long long int nstack = shape[2]*nslice;
         ///////////////////////////////////////////////////////////////////////////////
+
+	cout << "------------------------" << endl;
 
         //Blur the displacements to create a correlation length for the strain
         ///////////////////////////////////////////////////////////////////////////////
@@ -299,43 +310,47 @@ int main(int argc, char* argv[])
         std::cout << "-----------------------------" << std::endl;
         if (print_meanvalues)
         {
-        for (int p = 0; p < mesh.cell_labels_floating.size(); p++)
-        {
-            double mean = 0.0;
-            double stddev = 0.0;
+            for (int p = 0; p < mesh.cell_labels_floating.size(); p++)
+            {
+                double mean = 0.0;
+                double stddev = 0.0;
 
-            for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
-                mean += mesh.cell_labels_floating[p][i];
-            mean /= mesh.cell_labels_floating[p].size();
-            for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
-                stddev += (mesh.cell_labels_floating[p][i]-mean)*(mesh.cell_labels_floating[p][i]-mean);
+                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                    mean += mesh.cell_labels_floating[p][i];
+                mean /= mesh.cell_labels_floating[p].size();
+                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                    stddev += (mesh.cell_labels_floating[p][i]-mean)*(mesh.cell_labels_floating[p][i]-mean);
 
-            stddev = sqrt(stddev/(mesh.cell_labels_floating[p].size()-1));
-            cout << "mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (" << stddev << ")"<< endl;
-        }
-        std::cout << "-----------------------------" << std::endl;
+                stddev = sqrt(stddev/(mesh.cell_labels_floating[p].size()-1));
+                cout << "mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (std: " << stddev << ")"<< endl;
+            }
+            std::cout << "-----------------------------" << std::endl;
         }
         if (print_meanvalues_surface)
         {
             std::vector<std::vector<int64_t>> exterior_surface = surfacemesh_compare::extract_exterior_surface_indexed(mesh.tetrahedra);
-            for (int q = 0; q < exterior_surface.size(); q++)
+            
+            double N = 0.0;
+            double mean = 0.0;
+            double stddev = 0.0;
+
+	    for (int p = 0; p < mesh.cell_labels_floating.size(); p++)
             {
-                int p = exterior_surface[q][3];
-
-                double N = 0.0;
-                double mean = 0.0;
-                double stddev = 0.0;
-
-                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++){
+	        for (int q = 0; q < exterior_surface.size(); q++)
+                {
+                    int i = exterior_surface[q][3];
                     mean += mesh.cell_labels_floating[p][i];
                     N++;
                 }
                 mean /= N;
-                for (long long int i = 0; i < mesh.cell_labels_floating[p].size(); i++)
+                for (int q = 0; q < exterior_surface.size(); q++)
+                {
+                    int i = exterior_surface[q][3];
                     stddev += (mesh.cell_labels_floating[p][i]-mean)*(mesh.cell_labels_floating[p][i]-mean);
-
+		}
                 stddev = sqrt(stddev/(N-1));
-                cout << "mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (" << stddev << ")"<< endl;
+
+                cout << "surface mean " << mesh.cell_labels_floating_name[p] << ": " << mean << " (std: " << stddev << ")"<< endl;
             }
             std::cout << "-----------------------------" << std::endl;
         }
