@@ -67,13 +67,9 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 
 <br>
 
-<picture>
-  <img src="DVC_Demo_Alloy.png" width="350" title="transversal contraction" align="right">
-  <img alt="WireDeforming">
-</picture>
-
-## Demos
+## Demos 
 [Basic Functionality](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/README.md)
+[Tensile Testing with Little Textures](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/WireDemo/README.md)
 
 <br>
 
