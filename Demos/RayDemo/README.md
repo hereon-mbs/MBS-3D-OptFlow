@@ -70,7 +70,6 @@ In the output directory a **logfile.txt** will be established which keeps a reco
 Most applications will desire strains or deformations instead of displacements for analysis. The demo script runs an auxiliary program for mapping DVC results onto tetrahedral meshes. By default displacements are convoluted with a Gaussian kernel (sigma=3) and transformed into deformation vectors by minimizing rigid body motion over the external surface of the provided mesh. Additional arguments may be passed to calculate component of the Green-Lagrange strain tensor or different strains.
 <br>
 <br>
-Your results should look similar to the following rendering of deformation vectors:
-<br>
+Your results should look similar to the rendering of deformation vectors at the top of the page.
 
 
