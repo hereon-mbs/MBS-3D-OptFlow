@@ -58,6 +58,7 @@ When the zero pyramid level terminates parameters for checking the consistency o
 - the **cross-correlation** between Frame0 and Frame1 (w/o preprocessing) before and after DVC. This will be lower than the correlation determined on the GPU during processing because of lesser blurring. 
 - the **mean sum of squared distances** as alternative quality measure
 <br>
+
 In the output directory a **logfile.txt** will be established which keeps a record of previous program calls.
 <br>
 <br>
