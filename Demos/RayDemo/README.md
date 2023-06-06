@@ -66,8 +66,8 @@ In the output directory a **logfile.txt** will be established which keeps a reco
 
 - Try setting the flag **--export_warp**. An additional output with Frame1 morphed towards Frame0 will be generated in the output directory by applying the calculated displacement field. This may be more helpful than judging matching quality solemnly by correlation, e.g., too little weight on the smoothing term may yield a high correlation at the cost of ripples on the object interface.
 - The flag **export_error** is used to export the local residual absolute error between Frame0 and Frame1 as image sequence.
-- Try adding additional spatial coupling through the argument **-localglobal** followed by integer 1,2,3 or 4. This utilizes near-optimal interpolation kernels of increasing size. Alternatively, switch to a Gaussian combined local-global mode by passing **-localglobal_gauss** followed by a float defining sigma for the Gaussian kernel utilized. Combined local-global DVC is more memory intensive but substantially increases robustness in poorly textured samples and therefore often preferred.
-- Try modifying the **derivative** and/or **smoothness term** (to be documented).
+- Try adding additional spatial coupling through the argument **-localglobal** followed by integer 1,2,3 or 4. This utilizes near-optimal interpolation kernels of increasing size. Alternatively, switch to a Gaussian combined local-global mode by passing **-localglobal_gauss** followed by a float defining sigma for the Gaussian kernel utilized. [**Combined local-global DVC**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/localglobal.md) is more memory intensive but substantially increases robustness in poorly textured samples and therefore often preferred.
+- Try modifying the [**derivative**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/derivatives.md) and/or [**smoothness term**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/smoothing_term.md) (to be documented).
 
 ### Postprocessing
 
