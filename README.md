@@ -14,7 +14,6 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
   - Documentation of voxel2mesh
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
-  - Upload second demo project (NiTi wires)
 <br>
 
 ## References
@@ -69,6 +68,7 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 
 ## Demos 
 [Basic Functionality](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/README.md)
+<br>
 [Tensile Testing with Little Textures](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/WireDemo/README.md)
 
 <br>
