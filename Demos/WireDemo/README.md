@@ -52,6 +52,10 @@ where the first value sets the strain and 0.5 locates the strain center on the c
 
 ### Large Image Stacks
 
+### Rendering Strain
 
-
+When evaluating strain it needs to be considered that local strain requires a length scale to be defined. Such length scale can be introduced through a convolution of the deformation field. The size of the convolution kernel needs to consider the length scales of interest. You can tune the results by changing the convolution applied in postprocessing, introduced through the local-global method or through regularization via the alpha parameter.
 <br>
+<br>
+
+**We thank Julia Jungbluth for providing the scans for this demo.**
