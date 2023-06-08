@@ -16,6 +16,8 @@ LOCALGLOBAL=4
 GRADIENTMASK="-gradientmask 0 0.05"
 ADDITIONAL_ARGS="-prestrain_ref 0.00475 0.5"
 
+SIGMA_RENDERING=7
+
 ROOTPATH="/Demos/WireDemo/"
 OUTPATH="/Demos/WireDemo/optflow/"
 
@@ -31,6 +33,6 @@ ARGUMENTS="-alpha "$ALPHA" -norm "$NORMALIZATION" -level "$LEVEL" -scale "$SCALE
 for i in $EXPERIMENT_LIST; do
     INPATH=$i
     $DVCPROGRAM -i0 $ROOTPATH"/Frame00/" -i1 $ROOTPATH$INPATH -o $OUTPATH $ARGUMENTS
-    $ANALYSISPROGRAM -i_mesh /Demos/WireDemo/wire_mesh.vtk -i_disp $OUTPATH --taubin --vertices Ezz -sigma 7
+    $ANALYSISPROGRAM -i_mesh /Demos/WireDemo/wire_mesh.vtk -i_disp $OUTPATH --taubin --vertices Ezz -sigma $SIGMA_RENDERING
 done
 ###################################################################
