@@ -35,10 +35,10 @@ As a rule-of-thumb we can expect that the solver will prefer a solution with lit
 <br>
 When additional information on the expected motion is available this can be incorporate in the optimization. In the example at hand we do know from reading out the load cell that the macroscopic strain is 0.00475. The program allows to strain the reference frame in z-direction prior to running the optimization which enables us to look for the smaller transversal strain and local deviations from ideal behavior. This is done by passing the argument:
 <div align="center">
-  <em><strong>-prestrain_ref 0.00475</em></strong>
+  <em><strong>-prestrain_ref 0.00475 0.5</em></strong>
 </div>
 <br>
-The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected close to ideal. 
+where the first number sets the strain and 0.5 locates the strain center on the center of the z-axis. The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected to behave close to ideal. 
 
 
 ### Combined Local-Global Approach
