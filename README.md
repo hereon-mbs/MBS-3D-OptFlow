@@ -80,11 +80,11 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 
 ## Exemplary Program Calls
 
-[Example Call 1: Cracks and strain in bone (large dataset, localglobal method)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call1.md)
+[Example Call 1: Cracks and strain in bone (large dataset, localglobal method)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/exemplary_call1.md)
 <br>
-[Example Call 2: Tensile tests on SMA wires (motion across image boundary, little textures)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call2.md)
+[Example Call 2: Tensile tests on SMA wires (motion across image boundary, little textures)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/exemplary_call2.md)
 <br>
-[Example Call 3: Rearranged sand grains (warping, very large dataset)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/examplary_call3.md)
+[Example Call 3: Rearranged sand grains (warping, very large dataset)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/exemplary_call3.md)
 
 <br>
 
