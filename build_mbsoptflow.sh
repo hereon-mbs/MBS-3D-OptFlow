@@ -104,6 +104,8 @@ then
     unzip -qo Demos/RayDemo/Frame02.zip -d Demos/RayDemo/
     unzip -qo Demos/RayDemo/Frame03.zip -d Demos/RayDemo/
     unzip -qo Demos/RayDemo/Mask01.zip -d Demos/RayDemo/
+    unzip -qo Demos/WireDemo/Frame00.zip -d Demos/WireDemo/
+    unzip -qo Demos/WireDemo/Frame06.zip -d Demos/WireDemo/
     echo "--------------------------------------------------"
 fi
 
