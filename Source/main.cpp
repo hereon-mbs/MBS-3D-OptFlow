@@ -524,23 +524,26 @@ int main(int argc, char* argv[])
 
 	//Read data, normalize and preprocess
 	///////////////////////////////////////////////////////////////////////////////////
-	cout << "--------------------------------------------------" << endl;
-	cout << "Frame1: " << inpath1 << endl;
-	cout << "Preprocessing:" << endl;
-	std::cout << "----------------------------" << std::endl;
-
 	hdcom::HdCommunication hdcom;
 	std::string active_path = aux::get_active_directory();
 
 	//test if provided pathes are absolute or relative
 	////////////////////////
-	if (!hdcom.is_absolute_path(inpath0) && hdcom.path_exists(active_path+"//"+inpath0)) inpath0 = active_path+"//"+inpath0;
-	if (!hdcom.is_absolute_path(inpath1) && hdcom.path_exists(active_path+"//"+inpath1)) inpath1 = active_path+"//"+inpath1;
-	if (inpath_mask0 != "none" && !hdcom.is_absolute_path(inpath_mask0) && hdcom.path_exists(active_path+"//"+inpath_mask0)) inpath_mask0 = active_path+"//"+inpath_mask0;
+	if (!hdcom.is_absolute_path(inpath0) && hdcom.path_exists(active_path+"/"+inpath0)) inpath0 = active_path+"/"+inpath0;
+	if (!hdcom.is_absolute_path(inpath1) && hdcom.path_exists(active_path+"/"+inpath1)) inpath1 = active_path+"/"+inpath1;
+	if (inpath_mask0 != "none" && !hdcom.is_absolute_path(inpath_mask0) && hdcom.path_exists(active_path+"/"+inpath_mask0)) inpath_mask0 = active_path+"/"+inpath_mask0;
 	
 	std::string rootpath = inpath0.substr(0, inpath0.rfind("/", inpath0.length()-2)+1);
 	if (outpath.length() == 0) outpath = rootpath + "/optflow/";
-	else if (!hdcom.is_absolute_path(outpath)) outpath = active_path+"//"+outpath;
+	else if (!hdcom.is_absolute_path(outpath)) 
+		outpath = active_path+"/"+outpath;
+
+	cout << "--------------------------------------------------" << endl;
+	cout << "Frame0: " << inpath0 << endl;
+	cout << "Frame1: " << inpath1 << endl;
+	cout << "Outpath: " << outpath << endl;
+	cout << "Preprocessing:" << endl;
+	std::cout << "----------------------------" << std::endl;
 
 	bool is_rgb = false;
 	std::vector<string> filelist0 = hdcom.GetFilelist_And_ImageSequenceDimensions(inpath0, shape, is_rgb);
