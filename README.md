@@ -14,6 +14,8 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
   - Documentation of voxel2mesh
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
+  - Memory limiter for mosaic simulation
+  - Transversal contraction option for mini-mapper
 <br>
 
 ## References
