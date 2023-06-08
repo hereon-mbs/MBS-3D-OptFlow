@@ -11,7 +11,7 @@ The demo directory contains the following data:
 
 - **/Frame00/**: an image sequence of a metal wire with etched surface pits
 - **/Frame06/**: the same wire with macroscopic tensile strain of 0.00475 applied and registered to the reference frame
-- **wire_mesh.vtk**: a tetrahedral mesh of Frame00 with top and bottom cropped by 20 voxels (for minimizing boundary effects)
+- **wire_mesh.vtk**: a tetrahedral mesh of Frame00 with top and bottom cropped by 50 voxels (for minimizing boundary effects)
 
 In the root directory of the repository you will find the script ***run_wire_demo.sh*** which upon execution will match ***Frame01*** and ***Frame06***.
 <br>
