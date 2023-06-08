@@ -52,15 +52,17 @@ When additional information on the expected motion is available this can be inco
 <br>
 where the first value sets the strain and 0.5 locates the strain center on the center of the z-axis. The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected to behave close to ideal. 
 
-
 ### Combined Local-Global Approach
+
+Variational methods minimize a global energy and hence belong to the family of global DVC algorithms. Global approaches to DVC achieve kinematic and mechanic compatibility of the solution by an intrinsic spatial coupling. Solving for the entire domain at once offers better accuracy than a local approach with correlation windows but comes at the cost of local precision. The combined local-global approach by **[Bruhn, Weicker and Schnörr](https://www.mia.uni-saarland.de/Publications/bruhn-ijcv05c.pdf)** attempts to increase the robustness of optical flow based approaches versus noise. In essence, they describe a convolution of the data term introducing a correlation length. This is beneficial when missing textures in the data. In the case of metal wires the gradient of an interface is not unique. Thus, we need to introduce a correlation on the scale of the surface patterns. The algorithm offers various ways for implementing a [convolution]().
 
 ### Large Image Stacks
 
 ### Rendering Strain
 
-When evaluating strain it needs to be considered that local strain requires a length scale to be defined. Such length scale can be introduced through a convolution of the deformation field. The size of the convolution kernel needs to consider the length scales of interest. You can tune the results by changing the convolution applied in postprocessing, introduced through the local-global method or through regularization via the alpha parameter.
+When evaluating strain it needs to be considered that local strain requires a length scale to be defined. Such length scale can be introduced through a convolution of the deformation field. The size of the convolution kernel needs to consider the length scales of interest. The figure above illustrates the Ezz strain component of the Green-Lagrange strain tensor calculated with a sigma of 7. You can tune the results by changing the convolution applied in postprocessing, introduced through the local-global method or through regularization via the alpha parameter.
 <br>
 <br>
+
 
 **We thank Julia Jungbluth for providing the scans for this demo.**
