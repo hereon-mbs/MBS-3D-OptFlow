@@ -69,7 +69,7 @@ Will add a memory limiter to simulate mosaic calculations.
 
 ### Rendering Strain
 
-When evaluating strain it needs to be considered that local strain requires a length scale to be defined. Such length scale can be introduced through a convolution of the deformation field. The size of the convolution kernel needs to consider the length scales of interest. The figure above illustrates the Ezz strain component of the Green-Lagrange strain tensor calculated with a sigma of 7. You can tune the results by changing the convolution applied in postprocessing, introduced through the local-global method or through regularization via the alpha parameter.
+When evaluating strain it needs to be considered that local strain requires a length scale to be defined. Such length scale can be introduced through a convolution of the deformation field. The size of the convolution kernel needs to consider the length scales of interest. The figure above illustrates the Ezz strain component of the Green-Lagrange strain tensor calculated with a sigma of 7. You can tune the results by changing the convolution applied in **[postprocessing](../../Documentation/voxel2mesh.md)**, introduced through the **[local-global method](../../Documentation/localglobal.md)** or through regularization via the **[alpha parameter](../../smoothing_term.md)**.
 <br>
 <br>
 
