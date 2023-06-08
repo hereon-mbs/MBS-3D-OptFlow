@@ -38,7 +38,6 @@ When additional information on the expected motion is available this can be inco
   <em><strong>-prestrain_ref 0.00475</em></strong>
 </div>
 <br>
-<br>
 The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected close to ideal. 
 
 
