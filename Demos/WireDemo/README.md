@@ -1,6 +1,7 @@
-<p align="right">
-  <img src="SMA_Ezz.png" width="250" title="Ezz strain component">
-</p>
+<picture>
+  <img src="SMA_Ezz.png" width="250" title="Ezz strain component" align="right">
+  <img alt="Ezz">
+</picture>
 
 ## Tensile Testing of Surface Etched NiTi-Wires
 
