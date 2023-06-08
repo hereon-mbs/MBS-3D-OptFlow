@@ -41,7 +41,7 @@ When additional information on the expected motion is available this can be inco
 The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected close to ideal. 
 
 
-### Combine Local-Global Approach
+### Combined Local-Global Approach
 
 
 
