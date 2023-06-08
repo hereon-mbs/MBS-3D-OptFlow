@@ -12,13 +12,11 @@ LEVEL=10
 SCALE=0.9
 PREFILTER=0.5
 
-LOCALGLOBAL=3
-
-ADDITIONAL_ARGS="--median --export_warp"
+ADDITIONAL_ARGS="--median"
 
 ROOTPATH="/Demos/RayDemo/"
-MASK="/home/brunsste/Documents/MBS-3D-OptFlow/Demos/RayDemo/Mask01/"
-OUTPATH="/optflow/"
+MASK="/Demos/RayDemo/Mask01/"
+OUTPATH="/Demos/RayDemo/optflow/"
 
 ##############################################################################################
 
@@ -31,6 +29,7 @@ ARGUMENTS="-alpha "$ALPHA" -norm "$NORMALIZATION" -level "$LEVEL" -scale "$SCALE
 
 for i in $EXPERIMENT_LIST; do
     INPATH=$i
-    $DVCPROGRAM -i0 $ROOTPATH"Frame01/" -i1 $ROOTPATH$INPATH -m $MASK $ARGUMENTS
+    $DVCPROGRAM -i0 $ROOTPATH"Frame01/" -i1 $ROOTPATH$INPATH -m $MASK -o $OUTPATH $ARGUMENTS
+    $ANALYSISPROGRAM -i_mesh /Demos/RayDemo/raymesh.vtk -i_disp $OUTPATH --taubin --vertices
 done
 ###################################################################
