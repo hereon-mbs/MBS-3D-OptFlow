@@ -52,13 +52,19 @@ When additional information on the expected motion is available this can be inco
 <br>
 where the first value sets the strain and 0.5 locates the strain center on the center of the z-axis. The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected to behave close to ideal. 
 
+<br>
+
 ### Combined Local-Global Approach
 
 In the case of metal wires the gradient of an interface is not unique. Thus, we need to introduce a correlation on the scale of the surface patterns. This can be accomplished with the combined local-global approach by **[Bruhn, Weickert and Schnörr](https://www.mia.uni-saarland.de/Publications/bruhn-ijcv05c.pdf)**. Try adding additional spatial coupling through the argument **-localglobal** followed by integer 1,2,3 or 4. This utilizes near-optimal interpolation kernels of increasing size. Alternatively, switch to a Gaussian combined local-global mode by passing **-localglobal_gauss** followed by a float defining sigma for the Gaussian kernel utilized. [**Combined local-global DVC**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/localglobal.md) is more memory intensive but substantially increases robustness in poorly textured samples and is therefore often preferred.
 
+<br>
+
 ### Large Image Stacks
 
 Will add a memory limiter to simulate mosaic calculations.
+
+<br>
 
 ### Rendering Strain
 
