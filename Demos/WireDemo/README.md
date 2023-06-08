@@ -53,6 +53,7 @@ When additional information on the expected motion is available this can be inco
 where the first value sets the strain and 0.5 locates the strain center on the center of the z-axis. The prescribed strain is added back to the result upon completion of the DVC run. The unembedded wire here is expected to behave close to ideal. 
 
 <br>
+<br>
 
 ### Combined Local-Global Approach
 
