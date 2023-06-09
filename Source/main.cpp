@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 	if ("extract command line arguments"){
 		for (uint16_t i = 1; i < argc; i++)
 		{
-			     if ((string(argv[i]) == "-i0") || (string(argv[i]) == "-input0"))
+			if ((string(argv[i]) == "-i0") || (string(argv[i]) == "-input0"))
 			{
 				i++;
 				inpath0 = string(argv[i]);
@@ -503,6 +503,10 @@ int main(int argc, char* argv[])
 				//for SMA-wires that touch top and bottom slice
 				i++; params.confidence.zrange_killconfidence[0] = atoi(argv[i]);
 				i++; params.confidence.zrange_killconfidence[1] = atoi(argv[i]);
+			}
+			else if (string(argv[i]) == "-memlimit")
+			{
+				i++; params.special.memlimit_virtual = atof(argv[i]);
 			}
 		}
 
