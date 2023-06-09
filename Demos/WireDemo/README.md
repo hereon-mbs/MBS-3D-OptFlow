@@ -63,7 +63,9 @@ In the case of metal wires the gradient of an interface is not unique. Thus, we 
 
 ### Large Image Stacks
 
-Will add a memory limiter to simulate mosaic calculations.
+The *MEMORY_LIMITER* parameter in the script file that runs this demo (*run_wire_demo.sh*) allows setting an artificial upper limit in MB to the available GPU memory via the *-memlimit* argument. Try limiting the available GPU memory to a level that the program will throw an exception:
+
+
 
 <br>
 
