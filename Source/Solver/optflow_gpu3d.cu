@@ -2012,7 +2012,8 @@ namespace optflow
 		int n_optflow = 7;
 		int n_img = 2;
 
-		double free_db = (double)free_byte ;
+		//double free_db = (double)free_byte ;
+		double free_db = std::min(params->special.memlimit_virtual*(1024.*1024.), (double)free_byte);
 		double expected_usage = 7.*nstack *sizeof(optflow_type);
 		expected_usage += 2.*nstack *sizeof(img_type);
 		if(params->confidence.use_confidencemap) {expected_usage += nstack *sizeof(optflow_type); n_optflow++;}
