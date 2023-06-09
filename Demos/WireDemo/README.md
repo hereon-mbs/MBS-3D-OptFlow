@@ -76,7 +76,7 @@ In praxis you will may encounter this error when evaluating synchrotron data at 
 You can activate default mosaic processing by adding the flag ***--mosaic_approximation*** to the program call. The algorithm will try to maintain a single patch over as many pyramid levels as possible. The amount of patches and currently processed patch will be reported in the terminal output:
 
 <p align="center">
-  <img src="MosaicApproximation.png" width="500" title="running with 500MB GPU memory">
+  <img src="MosaicApproximation.png" width="400" title="running with 500MB GPU memory">
 </p>
 
 <br>
