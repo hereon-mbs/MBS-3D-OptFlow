@@ -18,6 +18,8 @@ Two functions are currently interfaced for evaluating a mosaic of overlapping pa
 
 ### Passable Arguments
 
-
+| argument | value | default | explanation |
+|----------|-------|---------|-------------|
+|
 
 ### Advanced Parameters
