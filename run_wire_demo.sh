@@ -16,6 +16,8 @@ LOCALGLOBAL=4
 GRADIENTMASK="-gradientmask 0 0.05"
 ADDITIONAL_ARGS="-prestrain_ref 0.00475 0.5"
 
+MEMORY_LIMITER=100000
+
 SIGMA_RENDERING=7
 STRAIN_OUTPUTS="Ezz"
 
@@ -29,7 +31,7 @@ Frame06
 "
 
 ############################# Execute #############################
-ARGUMENTS="-alpha "$ALPHA" -norm "$NORMALIZATION" -level "$LEVEL" -scale "$SCALE" -prefilter gaussian "$PREFILTER" -gpu0 "$GPU" -localglobal "$LOCALGLOBAL" "$ADDITIONAL_ARGS
+ARGUMENTS="-alpha "$ALPHA" -norm "$NORMALIZATION" -level "$LEVEL" -scale "$SCALE" -prefilter gaussian "$PREFILTER" -gpu0 "$GPU" -memlimit "$MEMORY_LIMITER" -localglobal "$LOCALGLOBAL" "$ADDITIONAL_ARGS
 DISPLAY_ARGUMENTS="--taubin --vertices "$STRAIN_OUTPUTS" -sigma "$SIGMA_RENDERING
 
 for i in $EXPERIMENT_LIST; do
