@@ -39,7 +39,7 @@ Masks are stored in GPU memory combined into a confidence maps with values betwe
 
 ### Motions over Boundaries
 
-Any motion into or out of the field of view is problematic because the data lack the necessary information to identify the associated displacement vectors. Voxels that are covered by the reference but not by the target frame are by default replaced by the input grayvalue. 
+Any [motion into or out of the field of view](../../Documentation/boundary_handling.md) is problematic because the data lack the necessary information to identify the associated displacement vectors. Voxels that are covered by the reference but not by the target frame are by default replaced by the input grayvalue. 
 <br>
 <br>
 As a rule-of-thumb we can expect that the solver will prefer a solution with little motion over large motion when energetically equivalent. This becomes evident with data that have redundant textures like the metal wire in this demo. The interfaces between wire and air are similar enough that the lower cost solution is to indent and unindent the surface instead of stretching the wire across the image boundaries. Bulk parameters that are covered, like the transversal contraction, should remain unaffected. Yet, strain in z-direction is the larger motion (across the image boundaries) and will appear to be close to zero.
@@ -69,7 +69,7 @@ The *MEMORY_LIMITER* parameter in the script file that runs this demo (*run_wire
   <img src="MemoryException.png" width="500" title="insufficient memory error">
 </p>
 
-In praxis you may encounter this error when evaluating synchrotron data at full resolution. By decomposing the data into a mosaic of overlapping patches the data can still be evaluated. There are currently two modes available: 
+In praxis you may encounter this error when evaluating synchrotron data at full resolution. By decomposing the data into a mosaic of overlapping patches the data can still be evaluated. There are currently [two modes available](../../large_data_processing.md): 
 - a low error mode where results are communicated between patches via Dirichlet boundaries after every outer iteration until convergence. This requires multiple read/write operations to GPU device memory per outer iteration which is slow. Therefore, this mode is not maintained actively and may behave buggy. GPU-to-GPU data transfer is even slower which is the reason why multi GPU support was initially interfaced but never fully implemented. Running multiple jobs on seperate GPUs is simply more efficient.
 - an approximate solution mode that solves every patch independently at the current pyramid level. Patches have a Dirichlet boundary to previously solved patches. This will work as long as objects are approximately two times smaller than the overlap defined. The direction in which the patches are solved alternates with the active pyramid level to avoid directional bias in the solution.
 
