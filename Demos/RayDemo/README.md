@@ -44,7 +44,7 @@ A successful program call should generate a terminal output similar to the above
 <br>
 <br>
 
-The **GPU configuration** section identifies the required GPU memory. When GPU memory is exceeded you will have to run in mosaic mode. Whenever possible variables are calculated on-the-fly while keeping transfer to and from the GPU minimal. If the data term needs to be precalculated for inner iterations, e.g., in local-global mode, **psimap** will be active and additional memory is required. **confidencemap** is active because we are using a mask requiring one additional copy. The **rewarp** functionality is rarely used.
+The **GPU configuration** section identifies the required GPU memory. When GPU memory is exceeded you will have to run in [mosaic mode](../../Documentation/large_data_processing.md). Whenever possible variables are calculated on-the-fly while keeping transfer to and from the GPU minimal. If the data term needs to be precalculated for inner iterations, e.g., in local-global mode, **psimap** will be active and additional memory is required. **confidencemap** is active because we are using a mask requiring one additional copy. The [**rewarp**](../../Documentation/memory_management.md) functionality is rarely used.
 <br>
 <br>
 The output will mention what kind of derivatives will be used for calculating data and smoothness term. The default smoothness term is anisotropic and non adaptive with respect to edge orientation.
