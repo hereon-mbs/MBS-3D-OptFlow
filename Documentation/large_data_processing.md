@@ -34,7 +34,7 @@ Two functions are currently interfaced for evaluating a mosaic of overlapping pa
 
 | argument | value | default | explanation |
 |----------|-------|------|-------|
-| **max_nstack** | int | -1 | Maximal allowed amount of voxels in a patch. The defailt of -1 activates auto estimation from available GPU memory. The recommendation is to have at least 2*(max_shift+iter_sor+1).|
+| **max_nstack** | int | -1 | Maximal allowed amount of voxels in a patch. The default of -1 activates auto estimation from available GPU memory. The recommendation is to have at least 2*(max_shift+iter_sor+1).|
 | **memory_buffer** | int | 256 | MB kept free on GPU as backup when auto estimating a patch size that can be fit into memory. You may want to reduce this value and recompile when running the code on a home computer. |
 
 
