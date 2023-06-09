@@ -196,6 +196,9 @@ namespace optflow
 
 			//verbose tracking
 			bool track_correlation = true;
+			
+			//Memory limitation for Demo
+			double memlimit_virtual = 10000000; //Limit GPU memory to MB provided here
 		};
 		///////////////////////////////////////////
 
