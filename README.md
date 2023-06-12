@@ -20,23 +20,6 @@ where $`E_{Data}`$ is a data term enforcing brightness constancy and $` E_{Smoot
   - Transversal contraction option for mini-mapper
 <br>
 
-## References
-
-When using the code please cite: 
-<br>
-
-[Bruns et al., *Bioactive Materials* **2023**, *"On the material dependency of peri-implant morphology and stability in healing bone"*](https://doi.org/10.1016/j.bioactmat.2023.05.006).
-
-The code is a further development of 2D code provided by A. Ershov: ...
-<br>
-Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by Liu: ...
-<br>
-Default derivatives are calculated according to Farid and Simoncelli: ...
-<br>
-Not to forget the fundamental works of Brox and Weickert: ...
-
-<br>
-
 ## Quick Start Guide
 
 ### Compilation
@@ -97,10 +80,46 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 [Example Call 3: Rearranged sand grains (warping, very large dataset)](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/exemplary_call3.md)
 
 <br>
+<br>
 
-## Publications
-When using the code please cite:...
-The code was also used in:...
+
+## References
+
+When using the code please cite: 
+<br>
+
+[Bruns et al., **Bioactive Materials 2023**](https://doi.org/10.1016/j.bioactmat.2023.05.006)
+
+The code is a further development of 2D code provided by A. Ershov ([cuda-flow2d](https://github.com/axruff/cuda-flow2d)) prominently used in:
+<br>
+
+[dos Santos Rolo et al., **PNAS 2014**](https://doi.org/10.1073/pnas.1308650111)
+
+Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by Liu:
+<br>
+
+[Liu, **MIT 2009**](https://people.csail.mit.edu/celiu/Thesis/CePhDThesis.pdf)
+
+Default derivatives used throughout the code are calculated according to Farid and Simoncelli:
+<br>
+
+[Farid and Simoncelli, **IEEE Transactions on Image Processing 2004**](https://www.cns.nyu.edu/pub/lcv/farid03-reprint.pdf)
+
+For a fundamental mathematical discussion in 2D refer to Brox and Weickert:
+<br>
+
+[Brox, **Universität des Saarlandes 2005**](https://lmb.informatik.uni-freiburg.de/people/brox/pub/brox_PhDThesis.pdf)
+<br>
+[Brox et al., **Computer Vision - ECCV 2004**](https://doi.org/10.1007/978-3-540-24673-2_3)
+<br>
+[Weickert and Schnörr, **International Journal of Computer Vision 2001**](https://doi.org/10.1023/A:1013614317973)
+<br>
+
+
+## Publications using MBs-3D-Optflow
+
+[Bruns et al., **Bioactive Materials 2023**](https://doi.org/10.1016/j.bioactmat.2023.05.006)
+
 <br>
 
 ## Acknowledgements
