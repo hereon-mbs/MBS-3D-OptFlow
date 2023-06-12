@@ -4,7 +4,7 @@
 
 The energy functional that is being minimized consists of a data term and a regularizing smoothness term of the form:
 
-$$ E_{smooth}(u,v)= \int_\Omega \Psi (\left\lvert \nabla_3u \right\rvert^2 + \left\lvert \nabla_3v \right\rvert^2) dx $$
+$$ E_{smooth}(u,v,w)= \int_\Omega \Psi (\left\lvert \nabla_4u \right\rvert^2 + \left\lvert \nabla_4v \right\rvert^2) dx $$
 
 During preprocessing 99.9% of the dynamic range are normalized to a 0 to 1 intensity range.
 This allows expressing the contribution of the smoothing term in relative terms through the alpha parameter.
