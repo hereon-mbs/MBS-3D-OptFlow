@@ -58,3 +58,34 @@
 
 ***Preprocessing to minimize artefacts in high temperature imaging (2020-09)***
 <br>
+<br>
+
+<picture>
+  <img src="Figures/SMAWire.png" title="Local strain imaging" align="center">
+  <img alt="SMAWire">
+</picture>
+<br>
+
+***Local deviations from macroscopic strain behavior with surface structured wires (2021-09)***
+<br>
+<br>
+
+<picture>
+  <img src="Figures/NewBuckling.gif" title="Residual buckling" align="center">
+  <img alt="SMAWire2">
+</picture>
+<br>
+
+***Buckling of surface structured wire under tensile test (2021-09)***
+<br>
+<br>
+
+<picture>
+  <img src="Figures/Florian_V2.png" title="Deflection" align="center">
+  <img alt="BoneImplant2">
+</picture>
+<br>
+
+***Quantifying deflections and deformations in bone-implant systems (2021-03)***
+<br>
+
