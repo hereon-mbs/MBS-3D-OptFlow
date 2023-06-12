@@ -1,4 +1,4 @@
-## Unpublished Figures
+## Gallery of Applications and Unpublished Figures
 
 <picture>
   <img src="FractureLocalization2.png" title="Fracture Localization from Divergence in Optical Flow" align="center">
