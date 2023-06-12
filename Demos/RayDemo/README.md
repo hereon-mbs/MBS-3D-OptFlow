@@ -67,7 +67,7 @@ In the output directory a **logfile.txt** will be established which keeps a reco
 
 - Try setting the flag **--export_warp**. An additional output with Frame1 morphed towards Frame0 will be generated in the output directory by applying the calculated displacement field. This may be more helpful than judging matching quality solemnly by correlation, e.g., too little weight on the smoothing term may yield a high correlation at the cost of ripples on the object interface.
 - The flag **export_error** is used to export the local residual absolute error between Frame0 and Frame1 as image sequence.
-- Try modifying the [**derivative**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/derivatives.md) and/or [**smoothness term**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/smoothing_term.md) (to be documented).
+- Try modifying the [**derivative**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/derivatives.md) and/or [**smoothness term**](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Documentation/smoothness_term.md) (to be documented).
 
 ### Postprocessing
 
