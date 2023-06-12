@@ -68,7 +68,6 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 [Basic Functionality](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/RayDemo/README.md)
 <br>
 [Tensile Testing with Little Textures](https://github.com/brunsst/MBS-3D-OptFlow/blob/main/Demos/WireDemo/README.md)
-
 <br>
 
 [Gallery](/Documentation/gallery.md)
