@@ -1,5 +1,8 @@
 ## Gallery of Applications and Unpublished Figures
 
+<br>
+<br>
+
 <picture>
   <img src="Figures/FractureLocalization2.png" title="Fracture localization from divergence in optical flow" align="center">
   <img alt="FractureLocalization1">
@@ -17,6 +20,7 @@
 <br>
 
 ***Fracture localization from divergence in optical flow (2020-02)***
+<br>
 <br>
 <br>
 
