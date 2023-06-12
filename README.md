@@ -85,44 +85,42 @@ It is recomended to reduce noise and artefacts as good as possible. Furthermore,
 
 ## References
 
-When using the code please cite: 
+When using the code please cite [**Bruns et al., Bioactive Materials 2023**](https://doi.org/10.1016/j.bioactmat.2023.05.006).
 <br>
 
-[Bruns et al., **Bioactive Materials 2023**](https://doi.org/10.1016/j.bioactmat.2023.05.006)
-
-The code is a further development of 2D code provided by A. Ershov ([cuda-flow2d](https://github.com/axruff/cuda-flow2d)) prominently used in:
+The code is a further development of 2D code provided by A. Ershov ([**cuda-flow2d**](https://github.com/axruff/cuda-flow2d)) prominently used in [**dos Santos Rolo et al., PNAS 2014**](https://doi.org/10.1073/pnas.1308650111).
 <br>
 
-[dos Santos Rolo et al., **PNAS 2014**](https://doi.org/10.1073/pnas.1308650111)
-
-Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by Liu:
+Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by [**Liu, MIT 2009**](https://people.csail.mit.edu/celiu/Thesis/CePhDThesis.pdf).
 <br>
 
-[Liu, **MIT 2009**](https://people.csail.mit.edu/celiu/Thesis/CePhDThesis.pdf)
-
-Default derivatives used throughout the code are calculated according to Farid and Simoncelli:
+Default derivatives used throughout the code are calculated according to [**Farid and Simoncelli, IEEE Transactions on Image Processing 2004**](https://www.cns.nyu.edu/pub/lcv/farid03-reprint.pdf).
 <br>
 
-[Farid and Simoncelli, **IEEE Transactions on Image Processing 2004**](https://www.cns.nyu.edu/pub/lcv/farid03-reprint.pdf)
-
-For a fundamental mathematical discussion in 2D refer to Brox and Weickert:
+For a fundamental mathematical discussion in 2D refer to [**Brox, Universität des Saarlandes 2005**](https://lmb.informatik.uni-freiburg.de/people/brox/pub/brox_PhDThesis.pdf), 
+[**Brox et al., Computer Vision - ECCV 2004**](https://doi.org/10.1007/978-3-540-24673-2_3) and 
+[**Weickert and Schnörr, International Journal of Computer Vision 2001**](https://doi.org/10.1023/A:1013614317973).
 <br>
-
-[Brox, **Universität des Saarlandes 2005**](https://lmb.informatik.uni-freiburg.de/people/brox/pub/brox_PhDThesis.pdf)
-<br>
-[Brox et al., **Computer Vision - ECCV 2004**](https://doi.org/10.1007/978-3-540-24673-2_3)
-<br>
-[Weickert and Schnörr, **International Journal of Computer Vision 2001**](https://doi.org/10.1023/A:1013614317973)
 <br>
 
 
 ## Publications using MBs-3D-Optflow
 
-[Bruns et al., **Bioactive Materials 2023**](https://doi.org/10.1016/j.bioactmat.2023.05.006)
+[**Bruns et al., Bioactive Materials 2023, On the material dependency of peri-implant morphology and stability in healing bone**](https://doi.org/10.1016/j.bioactmat.2023.05.006)
+<br>
 
+[**Schiefler et al., Environmental Science: Nano 2023, Retention of sulfidated nZVI (S-nZVI) in porous media visualized by X-ray mu-CT - the relevance of pore space geometry**](https://doi.org/10.1039/D2EN00224H).
+<br>
+
+[**Tolnai et al., Advanced Engineering Materials 2021, In Situ Synchrotron Tomography of the Solidification of an Elektron 21 Mg Alloy**](https://doi.org/10.1002/adem.202100383).
+<br>
+
+[**Schmelzle et al., Advanced Engineering Materials 2021, Using In Situ Synchrotron-Radiation-Based Microtomography to Investigate 3D Structure-Dependent Material Properties of Tension Wood**](https://doi.org/10.1002/adem.202100235).
+<br>
+
+[**Sartori et al., Advanced Engineering Materials 2021, Gaining Insight into the Deformation of Achilles Tendon Entheses in Mice**](https://doi.org/10.1002/adem.202100085).
+<br>
 <br>
 
 ## Acknowledgements
-The project was performed at... 
-Funding was received from...
-
+The software was developed as part of the **SynchroLoad project (BMBF project number 05K16CGA)** which was funded by the **Röntgen-Ångström Cluster (RÅC)**, a bilateral research collaboration of the Swedish government and the German Federal Ministry of Education and Research.
