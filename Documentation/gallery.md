@@ -18,4 +18,13 @@
 
 ***Undoing Motion caused by Injections for Identifying Green Rust Particles (2020-03)***
 <br>
+<br>
 
+<picture>
+  <img src="ray_timesequence.gif" title="Tracking Deformations in Biological Tissue" align="center">
+  <img alt="RayDemoSequence">
+</picture>
+<br>
+
+***Tracking Deformations in Biological Tissue (2020-05)***
+<br>
