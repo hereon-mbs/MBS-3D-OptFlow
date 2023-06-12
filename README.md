@@ -7,9 +7,13 @@
 
 # MBS-3D-OptFlow
 
-MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for Nvidia GPUs intended for the use with synchrotron µ-CT volume image data.
+MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for Nvidia GPUs intended for the use with synchrotron µ-CT volume image data. The code solves the optical flow problem by minimizing an energy functional of the form
 
-**Pending Updates**:
+$$ E(u,v,w) = E_{Data} + \alpha E_{Smoothness} $$
+
+where $`E_{Data}`$ is a data term enforcing brightness constancy and $` E_{Smoothness} `$ provides regularization. The default solver implemented operates as multiscale approach in 3D, with an  inner/outer iteration scheme and optimization via auto-adaptive successive over-relaxation.
+
+**Pending Repository Updates**:
   - Add a tool to perform rigid_body registration
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
@@ -17,6 +21,12 @@ MBS-3D-OptFlow provides fast and memory efficient digital volume correlation for
 <br>
 
 ## References
+
+When using the code please cite: 
+<br>
+
+[Bruns et al., *Bioactive Materials* **2023**, *"On the material dependency of peri-implant morphology and stability in healing bone"*](https://doi.org/10.1016/j.bioactmat.2023.05.006).
+
 The code is a further development of 2D code provided by A. Ershov: ...
 <br>
 Optimization of the energy functional is performed with successive overrelaxation as introduced in 2D by Liu: ...
