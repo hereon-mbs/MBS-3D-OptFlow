@@ -1,7 +1,7 @@
 ## Gallery of Applications and Unpublished Figures
 
 <picture>
-  <img src="Figures/FractureLocalization2.png" title="Fracture Localization from Divergence in Optical Flow" align="center">
+  <img src="Figures/FractureLocalization2.png" title="Fracture localization from divergence in optical flow" align="center">
   <img alt="FractureLocalization1">
 </picture>
 <br>
@@ -21,7 +21,7 @@
 <br>
 
 <picture>
-  <img src="Figures/GreenRust Identification.png" width=500 title="Undoing Motion caused by Injections" align="center">
+  <img src="Figures/GreenRust Identification.png" width=500 title="Undoing motion caused by injections" align="center">
   <img alt="GreenRust">
 </picture>
 <br>
@@ -31,7 +31,16 @@
 <br>
 
 <picture>
-  <img src="Figures/ray_timesequence.gif" title="Tracking Deformations in Biological Tissue" align="center">
+  <img src="Figures/AchillesTendon.png" title="Tracking rotation of mice achilles tendon" align="center">
+  <img alt="SartoriTendon">
+</picture>
+
+***Tracking rotation of mice achilles tendon (2020-06)***
+<br>
+<br>
+
+<picture>
+  <img src="Figures/ray_timesequence.gif" width=500 title="tracking deformations in biological tissue" align="center">
   <img alt="RayDemoSequence">
 </picture>
 <br>
@@ -41,7 +50,7 @@
 <br>
 
 <picture>
-  <img src="Figures/02-Demo_MgAlloyTracking.gif" title="Tracking a Front of Solidifying Alloy" align="center">
+  <img src="Figures/02-Demo_MgAlloyTracking.gif" width=650 title="Tracking a front of solidifying alloy" align="center">
   <img alt="MgAlloySequence">
 </picture>
 <br>
@@ -51,7 +60,7 @@
 <br>
 
 <picture>
-  <img src="Figures/00-ImagePreprocessing.png" title="High Temperature Imaging" align="center">
+  <img src="Figures/00-ImagePreprocessing.png" width=650 title="High temperature imaging" align="center">
   <img alt="MgAlloySolidification">
 </picture>
 <br>
@@ -71,7 +80,7 @@
 <br>
 
 <picture>
-  <img src="Figures/NewBuckling.gif" width=500 title="Residual buckling" align="center">
+  <img src="Figures/NewBuckling.gif" width=600 title="Residual buckling" align="center">
   <img alt="SMAWire2">
 </picture>
 <br>
