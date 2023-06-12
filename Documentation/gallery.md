@@ -71,12 +71,12 @@
 <br>
 
 <picture>
-  <img src="Figures/NewBuckling.gif" title="Residual buckling" align="center">
+  <img src="Figures/NewBuckling.gif" width=500 title="Residual buckling" align="center">
   <img alt="SMAWire2">
 </picture>
 <br>
 
-***Buckling of surface structured wire under tensile test (2021-09)***
+***Sub-voxel buckling of surface structured wire under tensile test (2021-09)***
 <br>
 <br>
 
