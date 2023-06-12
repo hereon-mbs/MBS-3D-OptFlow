@@ -6,7 +6,7 @@
 </picture>
 <br>
 
-***Fracture Localization from Divergence in Optical Flow (2020-02)***
+***Fracture localization from divergence in optical flow (2020-02)***
 <br>
 <br>
 
@@ -16,7 +16,7 @@
 </picture>
 <br>
 
-***Undoing Motion caused by Injections for Identifying Green Rust Particles (2020-03)***
+***Undoing motion caused by injections for identifying green rust particles (2020-03)***
 <br>
 <br>
 
@@ -26,5 +26,25 @@
 </picture>
 <br>
 
-***Tracking Deformations in Biological Tissue (2020-05)***
+***Tracking deformations in biological tissue (2020-05)***
+<br>
+<br>
+
+<picture>
+  <img src="02-Demo_MgAlloyTracking.gif" title="Tracking a Front of Solidifying Alloy" align="center">
+  <img alt="MgAlloySequence">
+</picture>
+<br>
+
+***Tracking a front of solidifying alloy (2020-09)***
+<br>
+<br>
+
+<picture>
+  <img src="00-ImagePreprocessing.png" title="High Temperature Imaging" align="center">
+  <img alt="MgAlloySolidification">
+</picture>
+<br>
+
+***Preprocessing to minimize artefacts in high temperature imaging (2020-09)***
 <br>
