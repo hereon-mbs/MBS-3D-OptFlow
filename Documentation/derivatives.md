@@ -3,7 +3,7 @@
 Discretized temporal derivative components used throughout the code are calculated with a simple forward difference scheme using Frame 0 and Frame 1. Spatial derivative components are by default calculated with a near optimal 5-tap kernel according to [Farid and Simoncelli](). Incorporating off-axis components into derivative calculations is beneficial because it increases the robustness of the solution against noise and outliers.
 <br>
 
-Alternative derivatives are available that can be set for the smoothness term with the *-smoothness_stencil* argument followed by a string defining the derivative type.
+Alternative derivatives are available that can be set for the smoothness term with the ***-smoothness_stencil*** argument followed by a string defining the derivative type.
 <br>
 
 The following discretization schemes are currently available:
@@ -20,7 +20,7 @@ The following discretization schemes are currently available:
 
 <br>
 
-The argument *-spatiotemporal_stencil* allows changing the derivative used in data term calculations.
+The argument ***-spatiotemporal_stencil*** allows changing the derivative used in data term calculations.
 <br>
 
 The following discretization schemes are currently available:
