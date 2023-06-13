@@ -69,7 +69,7 @@ The *MEMORY_LIMITER* parameter in the script file that runs this demo (*run_wire
   <img src="MemoryException.png" width="500" title="insufficient memory error">
 </p>
 
-In praxis you may encounter this error when evaluating synchrotron data at full resolution. By decomposing the data into a mosaic of overlapping patches the data can still be evaluated. There are currently [two modes available](../../large_data_processing.md): 
+In praxis you may encounter this error when evaluating synchrotron data at full resolution. By decomposing the data into a mosaic of overlapping patches the data can still be evaluated. There are currently [two modes available](../../Documentation/large_data_processing.md): 
 - a low error mode where results are communicated between patches via Dirichlet boundaries after every outer iteration until convergence. This requires multiple read/write operations to GPU device memory per outer iteration which is slow. Therefore, this mode is not maintained actively and may behave buggy. GPU-to-GPU data transfer is even slower which is the reason why multi GPU support was initially interfaced but never fully implemented. Running multiple jobs on seperate GPUs is simply more efficient.
 - an approximate solution mode that solves every patch independently at the current pyramid level. Patches have a Dirichlet boundary to previously solved patches. This will work as long as objects are approximately two times smaller than the overlap defined. The direction in which the patches are solved alternates with the active pyramid level to avoid directional bias in the solution.
 
