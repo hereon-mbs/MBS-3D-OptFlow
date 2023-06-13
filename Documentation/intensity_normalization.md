@@ -22,7 +22,7 @@ Several normalization options are available via the interface with the ***-norm*
 | **equalized_independent** | Equalized with independent histograms. |
 | **equalized_mask** | Performs equalization exclusively in the region provided with *-m*. E.g., this option was used for tendon matching because neighboring bone that was of no interest would dominate the contrast in the images. |
 | **histogram_linear** |  Applies a linear least square fits to maxima and minima of both histograms to match them. This option was used for **SynchroLoad**. With the low counts in the projections histograms were often stretched/compressed. An additional textfile output is generated to judge the histogram correlation. |
-| **histogram_linear** | Same as above with equalization. |
+| **histogram_equalized** | Same as above with equalization. |
 
 <br>
 
