@@ -14,7 +14,6 @@ $$ E(u,v,w) = E_{Data} + \alpha E_{Smoothness} $$
 where $`E_{Data}`$ is a data term enforcing brightness constancy and $` E_{Smoothness} `$ provides regularization. The default solver implemented operates as multiscale approach in 3D, with an  inner/outer iteration scheme and optimization via auto-adaptive successive over-relaxation.
 
 **Pending Repository Updates**:
-  - Add a tool to perform rigid_body registration
   - Streamlining of main.cpp (removing unused experimental features, workflows to separate files)
   - Documenting all available input parameters
   - Transversal contraction option for mini-mapper
@@ -55,7 +54,7 @@ The supporting programm **[voxel2mesh](/Documentation/voxel2mesh.md)** allows tr
 
 ### Preprocessing
 
-It is recomended to reduce noise and artefacts as good as possible. Furthermore, preregistering with a rigid body transformation maximizes the field of view and minimizes larger motions across the image boundaries. A basic tool will follow.
+It is recomended to reduce noise and artefacts as good as possible. Furthermore, preregistering with a rigid body transformation maximizes the field of view and minimizes larger motions across the image boundaries. A very basic tool for expert users can be build separately: **[wbbregistration_v0.2](/Preregistration/README.md)**
 
 <br>
 
