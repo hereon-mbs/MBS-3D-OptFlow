@@ -94,6 +94,10 @@ int main(int argc, char* argv[])
 			{
 				i++; inpath_frame1 = string(argv[i]);
 			}
+			else if ((string(argv[i]) == "-m") || (string(argv[i]) == "-mask"))
+			{
+				i++; maskpath = string(argv[i]);
+			}
 			else if (string(argv[i]) == "-batchapply")
 			{
 				i++; sample_identifier = string(argv[i]);
