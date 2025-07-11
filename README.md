@@ -125,3 +125,4 @@ For a fundamental mathematical discussion in 2D refer to [**Brox, Universität d
 
 ## Acknowledgements
 The software was developed as part of the **SynchroLoad project (BMBF project number 05K16CGA)** which was funded by the **Röntgen-Ångström Cluster (RÅC)**, a bilateral research collaboration of the Swedish government and the German Federal Ministry of Education and Research.
+Additional funding was received from the BMBF project **Multi-task Deep Learning for Large-scale Multimodal Biomedical Image Analysis (MDLMA, BMBF project number 031L0202A)**.
